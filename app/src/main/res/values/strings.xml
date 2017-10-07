@@ -1,0 +1,10 @@
+<resources>
+    <string name="create">Create \n \n Workout</string>
+    <string name="todays">Todays \n \n Workout</string>
+    <string name="weight">Calendar \n \n View</string>
+    <string name="workout">Workout \n \n Examples</string>
+    <string name="runing">Running \n \n Map</string>
+    <string name="music">Music \n\n Playlists</string>
+    <string name="progress">My Progress</string>
+    <string name="app_name">ProjectSpotR</string>
+</resources>
