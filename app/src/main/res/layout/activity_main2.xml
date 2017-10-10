@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#616161"
+    android:padding="3dp"
+    tools:context="com.example.i864514.projectspotr.Main2Activity">
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="185sp"
+        android:layout_height="150sp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/create"
+        android:background="@drawable/round_corners"/>
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="185sp"
+        android:layout_height="150sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button3"
+        android:text="@string/todays"
+        android:background="@drawable/round_corners"/>
+
+    <Button
+        android:id="@+id/calendarButton"
+        android:layout_width="185sp"
+        android:layout_height="150sp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button3"
+        android:layout_toStartOf="@+id/button4"
+        android:text="@string/weight"
+        android:background="@drawable/round_corners"/>
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="185sp"
+        android:layout_height="150sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/button4"
+        android:layout_below="@+id/button4"
+        android:text="@string/workout"
+        android:background="@drawable/round_corners"/>
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="185sp"
+        android:layout_height="150sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/button6"
+        android:layout_below="@+id/button6"
+        android:text="@string/music"
+        android:background="@drawable/round_corners"/>
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="185sp"
+        android:layout_height="150sp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/calendarButton"
+        android:layout_toStartOf="@+id/button6"
+        android:text="@string/runing"
+        android:background="@drawable/round_corners"/>
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/button7"
+        android:layout_centerHorizontal="true"
+        android:text="@string/progress"
+        android:background="@drawable/round_corners"/>
+</RelativeLayout>
