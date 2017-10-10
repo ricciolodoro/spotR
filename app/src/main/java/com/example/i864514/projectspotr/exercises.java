@@ -9,17 +9,30 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class exercises extends AppCompatActivity {
+
+    Spinner bodyPartsSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+
+        Spinner bodyPartsSpinner = (Spinner) findViewById(R.id.bodyPartsSpinner);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.body_parts, R.layout.custom_text_for_spinner);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(R.layout.custom_spinner_drop_down);
+// Apply the adapter to the spinner
+        bodyPartsSpinner.setAdapter(adapter);
     }
     public void onClick(View v) {
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
