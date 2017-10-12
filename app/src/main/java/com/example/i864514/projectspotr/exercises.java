@@ -23,6 +23,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 
     Spinner bodyPartsSpinner;
     LinearLayout linearLayout;
+    int iterator = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 0:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                String[] All = {"one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one"};
+                final String[] All = {"one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one"};
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < All.length; i++ )
                 {
@@ -71,11 +72,14 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setGravity(Gravity.CENTER);
                     textView.setPadding(0, 50, 0, 50);
                     textView.setClickable(true);
+                    iterator = i;
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent inTennt = new Intent(exercises.this, Main2Activity.class);
-                            startActivity(inTennt);
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(workoutPage.extraExercise, All[iterator]);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
                         }
                     });
                     linearLayout.addView(textView);
@@ -84,7 +88,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 1:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                String[] Chest  = {"two", "two", "two", "two", "two","two","two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two"};
+                final String[] Chest  = {"two", "two", "two", "two", "two","two","two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two"};
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Chest .length; i++ )
                 {
@@ -95,13 +99,23 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setGravity(Gravity.CENTER);
                     textView.setPadding(0, 50, 0, 50);
                     textView.setClickable(true);
+                    iterator = i;
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(workoutPage.extraExercise, Chest[iterator]);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        }
+                    });
                     linearLayout.addView(textView);
                 }
                 break;
             case 2:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                String[] Legs  = {"three", "three", "three","three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", };
+                final String[] Legs  = {"three", "three", "three","three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", };
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Legs .length; i++ )
                 {
@@ -112,13 +126,23 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setGravity(Gravity.CENTER);
                     textView.setPadding(0, 50, 0, 50);
                     textView.setClickable(true);
+                    iterator = i;
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(workoutPage.extraExercise, Legs[iterator]);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        }
+                    });
                     linearLayout.addView(textView);
                 }
                 break;
             case 3:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                String[] Abs  = {"four", "four", "four","four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four"};
+                final String[] Abs  = {"four", "four", "four","four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Abs .length; i++ )
@@ -130,13 +154,23 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setGravity(Gravity.CENTER);
                     textView.setPadding(0, 50, 0, 50);
                     textView.setClickable(true);
+                    iterator = i;
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(workoutPage.extraExercise, Abs[iterator]);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        }
+                    });
                     linearLayout.addView(textView);
                 }
                 break;
             case 4:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                String[] Arms  = {"five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five"};
+                final String[] Arms  = {"five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Arms .length; i++ )
@@ -148,13 +182,23 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setGravity(Gravity.CENTER);
                     textView.setPadding(0, 50, 0, 50);
                     textView.setClickable(true);
+                    iterator = i;
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(workoutPage.extraExercise, Arms[iterator]);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        }
+                    });
                     linearLayout.addView(textView);
                 }
                 break;
             case 5:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                String[] Back  = {"six", "six","six","six","six","six","six","six","six","six","six", "six","six","six","six","six","six","six","six","six","six"};
+                final String[] Back  = {"six", "six","six","six","six","six","six","six","six","six","six", "six","six","six","six","six","six","six","six","six","six"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Back .length; i++ )
@@ -166,13 +210,23 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setGravity(Gravity.CENTER);
                     textView.setPadding(0, 50, 0, 50);
                     textView.setClickable(true);
+                    iterator = i;
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(workoutPage.extraExercise, Back[iterator]);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        }
+                    });
                     linearLayout.addView(textView);
                 }
                 break;
             case 6:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                String[] Neck  = {"seven", "seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven"};
+                final String[] Neck  = {"seven", "seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Neck.length; i++ )
@@ -184,13 +238,23 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setGravity(Gravity.CENTER);
                     textView.setPadding(0, 50, 0, 50);
                     textView.setClickable(true);
+                    iterator = i;
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(workoutPage.extraExercise, Neck[iterator]);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        }
+                    });
                     linearLayout.addView(textView);
                 }
                 break;
             case 7:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                String[] Shoulders  = {"eight", "eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight"};
+                final String[] Shoulders  = {"eight", "eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Shoulders .length; i++ )
@@ -202,6 +266,16 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setGravity(Gravity.CENTER);
                     textView.setPadding(0, 50, 0, 50);
                     textView.setClickable(true);
+                    iterator = i;
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(workoutPage.extraExercise, Shoulders[iterator]);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        }
+                    });
                     linearLayout.addView(textView);
                 }
                 break;
