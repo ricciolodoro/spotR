@@ -29,6 +29,7 @@ public class workoutPage extends AppCompatActivity {
     String returnedString = "";
     View newView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +66,7 @@ public class workoutPage extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent goToExercise = new Intent(workoutPage.this, exercises.class);
+                        newView = v;
                         startActivityForResult(goToExercise, requestExerciseCode);
                     }
                 });
@@ -100,10 +102,24 @@ public class workoutPage extends AppCompatActivity {
             if (resultCode == RESULT_OK){
                 returnedString = data.getStringExtra(extraExercise);
                 ((TextView) newView.findViewById(R.id.exerciseText)).setText(returnedString);
-                Toast.makeText(getBaseContext(), returnedString,Toast.LENGTH_SHORT).show();
             }
         }
 
 
     }
+
+    public void makeGUIs(){
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState) {
+        super.onRestoreInstanceState(savedState);
+    }
+
 }
