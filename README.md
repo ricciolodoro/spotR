@@ -1,0 +1,2 @@
+# spotR
+android project

@@ -9,170 +9,190 @@
 
     <ScrollView
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="434dp"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="9dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="9dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
         tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.868"
+        android:id="@+id/scrollView2">
 
         <LinearLayout
+            android:id="@+id/exercisesLinearLayout"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            android:orientation="vertical" >
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Squat"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Squat"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Leg press"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Leg press"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Lunge"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Lunge"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Deadlift"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Deadlift"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Leg extension"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Leg extension"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Leg curl"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Leg curl"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Standing calf raise"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Standing calf raise"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Seated calf raise"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Seated calf raise"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Hip adductor"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Hip adductor"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Bench press"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Bench press"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Chest fly"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Chest fly"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:clickable="true"
-                android:textSize="27sp"
-                android:text="Push-up"
-                android:textAlignment="center"
-                android:padding="10sp"
-                android:textColor="@android:color/background_light" />
+            <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="onClick"-->
+            <!--android:clickable="true"-->
+            <!--android:textSize="27sp"-->
+            <!--android:text="Push-up"-->
+            <!--android:textAlignment="center"-->
+            <!--android:padding="10sp"-->
+            <!--android:textColor="@android:color/background_light" />-->
 
         </LinearLayout>
     </ScrollView>
+
+    <Spinner
+        android:id="@+id/bodyPartsSpinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="6dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
