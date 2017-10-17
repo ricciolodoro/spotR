@@ -35,6 +35,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
     Spinner bodyPartsSpinner;
     LinearLayout linearLayout;
     LinearLayout ex;
+    LinearLayout fornewList;
     int iterator = 0;
     MenuItem search;
     //EditText editTosearch;
@@ -49,6 +50,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
         setContentView(R.layout.activity_exercises);
         search = (MenuItem)findViewById(R.id.search);
         ex = (LinearLayout) findViewById(R.id.exercisesLinearLayout);
+        fornewList = (LinearLayout)findViewById(R.id.searchListView);
         //editTosearch = (EditText)findViewById(R.id.editToSearch);
 
         Spinner bodyPartsSpinner = (Spinner) findViewById(R.id.bodyPartsSpinner);
@@ -343,11 +345,15 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 
                 View newView = inflator.inflate(R.layout.edit_to_search, null);
                 View newView2 = inflator2.inflate(R.layout.list_view, null);
+                View newView3 = inflator2.inflate(R.layout.search_list_view, null);
 
                 EditText editTosearch = (EditText)newView.findViewById(R.id.editToSearch);
                 listView = (ListView)newView2.findViewById(R.id.listView);
+                fornewList = (LinearLayout)newView3.findViewById(R.id.searchListView);
                 linearLayout.addView(newView);
                 ex.addView(newView2);
+                ex.addView(fornewList);
+                //fornewList.addView(newView3);
                 //linearLayout.addView(newView2);
 
                 editTosearch.addTextChangedListener(new TextWatcher() {
@@ -387,11 +393,36 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 
     public void searchItem(String textToSearch){
         for(String item : All){
-            if(item.contains(textToSearch)){
+            if(!item.toLowerCase().contains(textToSearch.toLowerCase())){
                 listItems.remove(item);
             }
+
         }
+
+        fornewList.removeAllViews();
+        LinearLayout innerlinearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
+
+
+        fornewList.setOrientation(LinearLayout.VERTICAL);
+        for( int i = 0; i < listItems.size(); i++ )
+        {
+            TextView textView = new TextView(this);
+            textView.setText(listItems.get(i));
+            textView.setTextColor(Color.WHITE);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,32);
+            textView.setGravity(Gravity.CENTER);
+            textView.setPadding(0, 50, 0, 50);
+            textView.setClickable(true);
+            iterator = i;
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendBack(v);
+                }
+            });
+            fornewList.addView(textView);
     }
+}
 
     public void initList(){
         listItems = new ArrayList<>(Arrays.asList(All));
