@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".workoutPage"
-            android:label="Today's workout"
+            android:label="Workouts"
             android:theme="@style/AppTheme3">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

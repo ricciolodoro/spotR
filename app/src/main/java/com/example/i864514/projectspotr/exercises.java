@@ -7,27 +7,49 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class exercises extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner bodyPartsSpinner;
     LinearLayout linearLayout;
+    LinearLayout ex;
     int iterator = 0;
+    MenuItem search;
+    //EditText editTosearch;
+    String[] All;
+    ArrayList<String> listItems;
+    ArrayAdapter<String> adapter;
+    ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+        search = (MenuItem)findViewById(R.id.search);
+        ex = (LinearLayout) findViewById(R.id.exercisesLinearLayout);
+        //editTosearch = (EditText)findViewById(R.id.editToSearch);
 
         Spinner bodyPartsSpinner = (Spinner) findViewById(R.id.bodyPartsSpinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -37,6 +59,32 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 // Apply the adapter to the spinner
         bodyPartsSpinner.setAdapter(adapter);
         bodyPartsSpinner.setOnItemSelectedListener(this);
+
+        All = new String[]{"Bench press", "Chest fly", "DUMBBELL SQUEEZE PRESS", "INCLINE DUMBBELL BENCH PRESS", "WEIGHTED PUSHUP", "Board Press", "Floor Press", "Guillotine",
+                "Decline Bench Press", "Chest Dip", "Decline Fly", "Lying Fly", "Seated Fly", "Standing Fly", "Cable Bar", "Chest Press", "Cable Bar", "Decline Chest Press",
+                "Chest Dip", "Wide Grip Chest Press", "Decline Fly", "Lying Fly", "Push-up", "Side Raise", "Dumbbell Rows","Dumbbell Upright Rows","Push Press","Dumbbell Shrugs",
+                "Clean and Press","Clean and Jerk","Standing Palms-In Dumbbell Press","Standing Military Press","Seated Barbell Military Press","Power Partials",
+                "Seated Dumbbell Press","Reverse Flyes","Alternating Deltoid Raise","Dumbbell Shoulder Press","Car Drivers","Front Plate Raise","Leverage Shoulder Press", "Neck Flexion",
+                "Neck Rotation","Lateral Neck Flexion","Lying Neck Flexion","Front Neck Bridge","spinal twist","knees to chest","cat stretch","back extension","forward lunge","side lunge",
+                "sitting hip stretch","Isometric Neck Circuit","Lying Face Down Plate Neck Resistance","Neck Bridge Prone","Chin To Chest Stretch","Neck-SMR","DUMBBELL SHRUG","BARBELL SHRUG",
+                "Bent-over Row", "Cambered Bar Lying Row","Incline Row","Kneeling Row","Lying Row","One Arm Bent-over Row","Seated High Row","Seated Wide Grip Row","One Arm Standing Row",
+                "T-bar Row","Seated High Row", "Parallel Close Grip Pull-up","Pull-up","Chin-up","Close Grip Pulldown","Rear Pull-up","Trap Bar Shrug","Gripless Shrug",
+                "Seated Shoulder External Rotation","Broomstick","Rear Pull-up", "Triceps Dip", "Close Grip Bench Press", "JM Press", "Lying Triceps Extension", "Triceps Extension",
+                "Bent-over Triceps Extension", "Cable Bar", "Forward Triceps Extension", "Incline Triceps Extension", "Kneeling Triceps Extension", "Pushdown", "Alternating Seated",
+                "forward leaning", "Incline", "Kickback", "Bench Dip", "Curl", "Alternating Curl", "Cable Bar", "Supine Curl", "Underhand Chin-up", "Doorway", "Preacher Curl", "Concentration Curl",
+                "Underhand Supine Row", "between benches", "Ab Crunches", "Bicycle Crunches", "Kneeling Cable Crunches","Floor Cable Crunches", "Swiss Ball Cable Crunches", "Hanging Leg Raises",
+                "Incline Crunches", "Incline Sit Ups", "Jack Knife Maneuver", "Oblique Crunches", "Russian Twist", "Side Crunches", "Sit Ups", "Oblique Sit Ups", "Half Kneeling Rotations",
+                "Cable Lifts", "Cable Chops", "Kneeling Rotation Cable Exercise", "Standing Side Bends for Abs", "1 Leg hip Hinge", "Bosu Ball Leg Raises", "Bosu Ball Russian Twists",
+                "Bosu Ball Crunches Feet Up", "Lunge", "Single Leg Split Squat", "Squat","Step-up", "Leg Extension", "Leg Presses", "Rear Lunge", "Barbell Machine", "Front Squat",
+                "Full Squat", "Hack Squat", "V-Squat", "Sissy Squat", "Smith", "Single Leg Squat", "Weighted Glute-Ham Raise", "Leg Curls", "power wheel", "Glute-Ham Raise",
+                "Kneeling Leg Curl", "Lying Leg Curl", "Good-morning", "Straight-leg Deadlift", "Inverse Leg Curl", "Back Raise", "Bench press", "Chest fly", "DUMBBELL SQUEEZE PRESS",
+                "INCLINE DUMBBELL BENCH PRESS", "WEIGHTED PUSHUP", "Board Press", "Floor Press", "Guillotine", "Decline Bench Press", "Chest Dip", "Decline Fly", "Lying Fly", "Seated Fly",
+                "Standing Fly", "Cable Bar", "Chest Press", "Cable Bar", "Decline Chest Press", "Chest Dip", "Wide Grip Chest Press", "Decline Fly", "Lying Fly", "Push-up"};
+
+
+
+
+
     }
     public void onClick(View v) {
 
@@ -61,11 +109,12 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 0:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                final String[] All = {"one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one", "one"};
+
+
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < All.length; i++ )
                 {
-                    TextView textView = new TextView(this);
+                    final TextView textView = new TextView(this);
                     textView.setText(All[i]);
                     textView.setTextColor(Color.WHITE);
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,32);
@@ -76,8 +125,10 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            TextView sendBack = (TextView)v;
+
                             Intent resultIntent = new Intent();
-                            resultIntent.putExtra(workoutPage.extraExercise, All[iterator]);
+                            resultIntent.putExtra(workoutPage.extraExercise, sendBack.getText());
                             setResult(RESULT_OK, resultIntent);
                             finish();
                         }
@@ -88,7 +139,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 1:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                final String[] Chest  = {"two", "two", "two", "two", "two","two","two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two", "two"};
+                final String[] Chest  = {"Bench press", "Chest fly", "DUMBBELL SQUEEZE PRESS", "INCLINE DUMBBELL BENCH PRESS", "WEIGHTED PUSHUP", "Board Press", "Floor Press", "Guillotine", "Decline Bench Press", "Chest Dip", "Decline Fly", "Lying Fly", "Seated Fly", "Standing Fly", "Cable Bar", "Chest Press", "Cable Bar", "Decline Chest Press", "Chest Dip", "Wide Grip Chest Press", "Decline Fly", "Lying Fly", "Push-up"};
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Chest .length; i++ )
                 {
@@ -103,10 +154,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(workoutPage.extraExercise, Chest[iterator]);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
+                            sendBack(v);
                         }
                     });
                     linearLayout.addView(textView);
@@ -115,7 +163,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 2:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                final String[] Legs  = {"three", "three", "three","three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", "three", };
+                final String[] Legs  = {"Lunge", "Single Leg Split Squat", "Squat","Step-up", "Leg Extension", "Leg Presses", "Rear Lunge", "Barbell Machine", "Front Squat", "Full Squat", "Hack Squat", "V-Squat", "Sissy Squat", "Smith", "Single Leg Squat", "Weighted Glute-Ham Raise", "Leg Curls", "power wheel", "Glute-Ham Raise", "Kneeling Leg Curl", "Lying Leg Curl", "Good-morning", "Straight-leg Deadlift", "Inverse Leg Curl", "Back Raise", };
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Legs .length; i++ )
                 {
@@ -130,10 +178,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(workoutPage.extraExercise, Legs[iterator]);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
+                            sendBack(v);
                         }
                     });
                     linearLayout.addView(textView);
@@ -142,7 +187,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 3:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                final String[] Abs  = {"four", "four", "four","four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four", "four"};
+                final String[] Abs  = {"Ab Crunches", "Bicycle Crunches", "Kneeling Cable Crunches","Floor Cable Crunches", "Swiss Ball Cable Crunches", "Hanging Leg Raises", "Incline Crunches", "Incline Sit Ups", "Jack Knife Maneuver", "Oblique Crunches", "Russian Twist", "Side Crunches", "Sit Ups", "Oblique Sit Ups", "Half Kneeling Rotations", "Cable Lifts", "Cable Chops", "Kneeling Rotation Cable Exercise", "Standing Side Bends for Abs", "1 Leg hip Hinge", "Bosu Ball Leg Raises", "Bosu Ball Russian Twists", "Bosu Ball Crunches Feet Up"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Abs .length; i++ )
@@ -158,10 +203,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(workoutPage.extraExercise, Abs[iterator]);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
+                            sendBack(v);
                         }
                     });
                     linearLayout.addView(textView);
@@ -170,7 +212,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 4:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                final String[] Arms  = {"five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five", "five"};
+                final String[] Arms  = {"Triceps Dip", "Close Grip Bench Press", "JM Press", "Lying Triceps Extension", "Triceps Extension", "Bent-over Triceps Extension", "Cable Bar", "Forward Triceps Extension", "Incline Triceps Extension", "Kneeling Triceps Extension", "Pushdown", "Alternating Seated", "forward leaning", "Incline", "Kickback", "Bench Dip", "Curl", "Alternating Curl", "Cable Bar", "Supine Curl", "Underhand Chin-up", "Doorway", "Preacher Curl", "Concentration Curl", "Underhand Supine Row", "between benches"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Arms .length; i++ )
@@ -186,10 +228,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(workoutPage.extraExercise, Arms[iterator]);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
+                            sendBack(v);
                         }
                     });
                     linearLayout.addView(textView);
@@ -198,7 +237,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 5:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                final String[] Back  = {"six", "six","six","six","six","six","six","six","six","six","six", "six","six","six","six","six","six","six","six","six","six"};
+                final String[] Back  = {"Bent-over Row", "Cambered Bar Lying Row","Incline Row","Kneeling Row","Lying Row","One Arm Bent-over Row","Seated High Row","Seated Wide Grip Row","One Arm Standing Row","T-bar Row","Seated High Row", "Parallel Close Grip Pull-up","Pull-up","Chin-up","Close Grip Pulldown","Rear Pull-up","Trap Bar Shrug","Gripless Shrug","Seated Shoulder External Rotation","Broomstick","Rear Pull-up"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Back .length; i++ )
@@ -214,10 +253,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(workoutPage.extraExercise, Back[iterator]);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
+                            sendBack(v);
                         }
                     });
                     linearLayout.addView(textView);
@@ -226,7 +262,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 6:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                final String[] Neck  = {"seven", "seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven","seven"};
+                final String[] Neck  = {"Neck Flexion", "Neck Rotation","Lateral Neck Flexion","Lying Neck Flexion","Front Neck Bridge","spinal twist","knees to chest","cat stretch","back extension","forward lunge","side lunge","sitting hip stretch","Isometric Neck Circuit","Lying Face Down Plate Neck Resistance","Neck Bridge Prone","Chin To Chest Stretch","Neck-SMR","DUMBBELL SHRUG","BARBELL SHRUG"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Neck.length; i++ )
@@ -242,10 +278,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(workoutPage.extraExercise, Neck[iterator]);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
+                            sendBack(v);
                         }
                     });
                     linearLayout.addView(textView);
@@ -254,7 +287,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
             case 7:
                 linearLayout = (LinearLayout)findViewById(R.id.exercisesLinearLayout);
                 linearLayout.removeAllViews();
-                final String[] Shoulders  = {"eight", "eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight","eight"};
+                final String[] Shoulders  = {"Side Raise", "Dumbbell Rows","Dumbbell Upright Rows","Push Press","Dumbbell Shrugs","Clean and Press","Clean and Jerk","Standing Palms-In Dumbbell Press","Standing Military Press","Seated Barbell Military Press","Power Partials","Seated Dumbbell Press","Reverse Flyes","Alternating Deltoid Raise","Dumbbell Shoulder Press","Car Drivers","Front Plate Raise","Leverage Shoulder Press"};
 
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 for( int i = 0; i < Shoulders .length; i++ )
@@ -270,10 +303,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(workoutPage.extraExercise, Shoulders[iterator]);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
+                            sendBack(v);
                         }
                     });
                     linearLayout.addView(textView);
@@ -281,10 +311,94 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                 break;
         }
 
+
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    public void sendBack(View v){
+        TextView sendBack = (TextView)v;
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(workoutPage.extraExercise, sendBack.getText());
+        setResult(RESULT_OK, resultIntent);
+        finish();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.search:
+
+                linearLayout.removeAllViews();
+
+
+                LayoutInflater inflator = getLayoutInflater();
+                LayoutInflater inflator2 = getLayoutInflater();
+
+                View newView = inflator.inflate(R.layout.edit_to_search, null);
+                View newView2 = inflator2.inflate(R.layout.list_view, null);
+
+                EditText editTosearch = (EditText)newView.findViewById(R.id.editToSearch);
+                listView = (ListView)newView2.findViewById(R.id.listView);
+                linearLayout.addView(newView);
+                ex.addView(newView2);
+                //linearLayout.addView(newView2);
+
+                editTosearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        initList();
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if(s.toString().equals("")){
+                            //reset listview
+                            initList();
+
+
+                        }else {
+                            //perform search
+                            searchItem(s.toString());
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    public void searchItem(String textToSearch){
+        for(String item : All){
+            if(item.contains(textToSearch)){
+                listItems.remove(item);
+            }
+        }
+    }
+
+    public void initList(){
+        listItems = new ArrayList<>(Arrays.asList(All));
+
+        adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.txtitem, listItems);
+        Toast.makeText(getBaseContext(), listItems.get(1), Toast.LENGTH_SHORT).show();
+        listView.setAdapter(adapter);
+    }
+
 }
