@@ -25,17 +25,25 @@ import com.google.firebase.auth.FirebaseUser;
 public class Main2Activity extends AppCompatActivity {
 
     Button calendarview;
-    Button createWorkout = (Button)findViewById(R.id.createWorkoutButton);
-    Button todaysWorkout = (Button)findViewById(R.id.todaysWorkoutButton);
-    Button userProfile = (Button)findViewById(R.id.userProfileButton);
-    Button runningMap = (Button)findViewById(R.id.runningMapButton);
-    Button musicPlaylists = (Button)findViewById(R.id.musicPlaylistsButton);
-    Button myProgress = (Button)findViewById(R.id.myProgressButton);
+    Button createWorkout;
+    Button todaysWorkout;
+    Button userProfile;
+    Button runningMap;
+    Button musicPlaylists;
+    Button myProgress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        createWorkout = (Button)findViewById(R.id.createWorkoutButton);
+        todaysWorkout = (Button)findViewById(R.id.todaysWorkoutButton);
+        userProfile = (Button)findViewById(R.id.userProfileButton);
+        runningMap = (Button)findViewById(R.id.runningMapButton);
+        musicPlaylists = (Button)findViewById(R.id.musicPlaylistsButton);
+        myProgress = (Button)findViewById(R.id.myProgressButton);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

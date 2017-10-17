@@ -1,8 +1,11 @@
 package com.example.i864514.projectspotr;
 
         import android.content.Intent;
+        import android.content.SharedPreferences;
         import android.os.Bundle;
+        import android.preference.PreferenceManager;
         import android.support.annotation.NonNull;
+        import android.support.annotation.Nullable;
         import android.support.v7.app.AppCompatActivity;
         import android.text.TextUtils;
         import android.util.Log;
@@ -21,6 +24,9 @@ package com.example.i864514.projectspotr;
         import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
         import com.google.firebase.database.ValueEventListener;
+
+        import java.util.Map;
+        import java.util.Set;
 
 public class registerPage extends AppCompatActivity implements
         View.OnClickListener {
@@ -47,6 +53,8 @@ public class registerPage extends AppCompatActivity implements
         mEmailField = (EditText)findViewById(R.id.field_email);
         mPasswordField = (EditText)findViewById(R.id.field_password);
 
+        String mEmailString = mEmailField.getText().toString();
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("userEmail",mEmailString).apply();
         // Buttons
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
