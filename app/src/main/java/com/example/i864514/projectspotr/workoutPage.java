@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.icu.text.SimpleDateFormat;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,14 +22,20 @@ import android.widget.Toast;
 
 public class workoutPage extends AppCompatActivity {
 
+    TextView todaysDate;
     MenuItem addSet;
     ScrollView setsSpace;
     LinearLayout holdsWorkouts;
     LinearLayout holdsSetsAndReps;
     int requestExerciseCode = 0;
     static String extraExercise = "EXTRA_EXERCISE";
+    static String extraDate = "EXTRA_DATE";
     String returnedString = "";
+    String returnedString2 = "";
     View newView;
+
+//    String Date = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("currentTime","No String Found.");
+
 
 
     @Override
@@ -38,6 +46,19 @@ public class workoutPage extends AppCompatActivity {
         setsSpace = (ScrollView)findViewById(R.id.scrollViewSetsSpace);
         holdsWorkouts = (LinearLayout)findViewById(R.id.holdsWorkouts);
         holdsSetsAndReps = (LinearLayout)findViewById(R.id.holdsWorkouts);
+        todaysDate = (TextView)findViewById(R.id.date);
+
+
+
+
+
+        String Date = "";
+
+        //new SimpleDateFormat("dd-MM-yyyy").format("dd-MM-yyyy");
+
+        todaysDate.setText(Date);
+
+
 
     }
 
@@ -101,6 +122,11 @@ public class workoutPage extends AppCompatActivity {
 
             if (resultCode == RESULT_OK){
                 returnedString = data.getStringExtra(extraExercise);
+                ((TextView) newView.findViewById(R.id.exerciseText)).setText(returnedString);
+            }
+
+            if(resultCode == RESULT_OK){
+                returnedString2 = data.getStringExtra(extraDate);
                 ((TextView) newView.findViewById(R.id.exerciseText)).setText(returnedString);
             }
         }

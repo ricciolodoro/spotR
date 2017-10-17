@@ -131,6 +131,9 @@ public class userProfile extends AppCompatActivity {
             // FirebaseUser.getToken() instead.
             String uid = user.getUid();
 
+            Intent i = new Intent(userProfile.this, Main2Activity.class);
+            startActivity(i);
+
 
         }
 

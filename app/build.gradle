@@ -34,13 +34,13 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-<<<<<<< HEAD
+
 
 
 
 
 
 apply plugin: 'com.google.gms.google-services'
-=======
+
 apply plugin: 'com.google.gms.google-services'
->>>>>>> ee0e19656f7fd6351c206358bc8ae9f0ca415380
+
