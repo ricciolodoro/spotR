@@ -131,7 +131,8 @@ public class registerPage extends AppCompatActivity implements
 
 
                             //On to next page, userProfile!
-                            Intent i = new Intent(registerPage.this, Main2Activity.class);
+                            Toast.makeText(getApplicationContext(),"Update your profile.", Toast.LENGTH_LONG);
+                            Intent i = new Intent(registerPage.this, userProfile.class);
                             startActivity(i);
 
 

@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +24,8 @@ import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Date;
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -76,7 +81,7 @@ public class Main2Activity extends AppCompatActivity {
         createWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main2Activity.this, exercises.class);
+                Intent i = new Intent(Main2Activity.this, workoutPage.class);
                 startActivity(i);
             }
         });
@@ -84,7 +89,18 @@ public class Main2Activity extends AppCompatActivity {
         todaysWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main2Activity.this, exercises.class);
+
+
+
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+                Date today = Calendar.getInstance().getTime();
+
+                String reportDate = df.format(today);
+
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("currentTime",reportDate).apply();
+
+                Intent i = new Intent(Main2Activity.this, workoutPage.class);
                 startActivity(i);
             }
         });
@@ -100,7 +116,7 @@ public class Main2Activity extends AppCompatActivity {
         runningMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main2Activity.this, exercises.class);
+                Intent i = new Intent(Main2Activity.this, workoutPage.class);
                 startActivity(i);
             }
         });
@@ -108,7 +124,7 @@ public class Main2Activity extends AppCompatActivity {
         musicPlaylists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main2Activity.this, exercises.class);
+                Intent i = new Intent(Main2Activity.this, workoutPage.class);
                 startActivity(i);
             }
         });
@@ -116,7 +132,7 @@ public class Main2Activity extends AppCompatActivity {
         myProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main2Activity.this, exercises.class);
+                Intent i = new Intent(Main2Activity.this, workoutPage.class);
                 startActivity(i);
             }
         });

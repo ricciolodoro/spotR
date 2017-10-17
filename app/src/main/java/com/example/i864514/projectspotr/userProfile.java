@@ -25,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class userProfile extends AppCompatActivity {
 
     EditText firstNameInput;
@@ -44,6 +46,46 @@ public class userProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("users");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                HashMap<String,String> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
+
+                String firstName = dataSnapshotValue.get("firstNameInputString");
+                String lastName = dataSnapshotValue.get("lastNameInputString");
+                String birthday = dataSnapshotValue.get("birthdayInputString");
+                String username = dataSnapshotValue.get("usernameInputString");
+                String height = dataSnapshotValue.get("heightInputString");
+                String age = dataSnapshotValue.get("ageInputString");
+                String fastestMile = dataSnapshotValue.get("fastestMileInputString");
+                String maxBench = dataSnapshotValue.get("maxBenchInputString");
+                String maxSquat = dataSnapshotValue.get("maxSquatInputString");
+                String maxDeadlift = dataSnapshotValue.get("maxDeadliftInputString");
+
+                firstNameInput.setText(firstName);
+                lastNameInput.setText(lastName);
+                birthdayInput.setText(birthday);
+                usernameInput.setText(username);
+                heightInput.setText(height);
+                ageInput.setText(age);
+                fastestMileInput.setText(fastestMile);
+                maxBenchInput.setText(maxBench);
+                maxSquatInput.setText(maxSquat);
+                maxDeadliftInput.setText(maxDeadlift);
+            }
+
+
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
 
         firstNameInput = (EditText)findViewById(R.id.editFirstName);
         lastNameInput = (EditText)findViewById(R.id.editLastName);
@@ -89,6 +131,9 @@ public class userProfile extends AppCompatActivity {
             // FirebaseUser.getToken() instead.
             String uid = user.getUid();
 
+            Intent i = new Intent(userProfile.this, Main2Activity.class);
+            startActivity(i);
+
 
         }
 
@@ -103,7 +148,46 @@ public class userProfile extends AppCompatActivity {
                 ageInputString, heightInputString, maxBenchInputString, maxSquatInputString, maxDeadliftInputString,
                 fastestMileInputString, userEmail);
 
-                
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference ref = database.getReference("users");
+
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        HashMap<String,String> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
+
+                        String firstName = dataSnapshotValue.get("firstNameInputString");
+                        String lastName = dataSnapshotValue.get("lastNameInputString");
+                        String birthday = dataSnapshotValue.get("birthdayInputString");
+                        String username = dataSnapshotValue.get("usernameInputString");
+                        String height = dataSnapshotValue.get("heightInputString");
+                        String age = dataSnapshotValue.get("ageInputString");
+                        String fastestMile = dataSnapshotValue.get("fastestMileInputString");
+                        String maxBench = dataSnapshotValue.get("maxBenchInputString");
+                        String maxSquat = dataSnapshotValue.get("maxSquatInputString");
+                        String maxDeadlift = dataSnapshotValue.get("maxDeadliftInputString");
+
+                        firstNameInput.setText(firstName);
+                        lastNameInput.setText(lastName);
+                        birthdayInput.setText(birthday);
+                        usernameInput.setText(username);
+                        heightInput.setText(height);
+                        ageInput.setText(age);
+                        fastestMileInput.setText(fastestMile);
+                        maxBenchInput.setText(maxBench);
+                        maxSquatInput.setText(maxSquat);
+                        maxDeadliftInput.setText(maxDeadlift);
+                    }
+
+
+
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("The read failed: " + databaseError.getCode());
+                    }
+                });
+
 
 
                 Toast.makeText(getApplicationContext(),"Details Submitted.",Toast.LENGTH_SHORT);
