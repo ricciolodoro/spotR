@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class userProfile extends AppCompatActivity {
     EditText usernameInput;
     EditText ageInput;
     EditText heightInput;
+    Spinner liftingRegimentInput;
     EditText maxBenchInput;
     EditText maxSquatInput;
     EditText maxDeadliftInput;
@@ -46,6 +48,20 @@ public class userProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        firstNameInput = (EditText)findViewById(R.id.editFirstName);
+        lastNameInput = (EditText)findViewById(R.id.editLastName);
+        birthdayInput = (EditText)findViewById(R.id.editBirthday);
+        usernameInput = (EditText)findViewById(R.id.editUsername);
+        ageInput = (EditText)findViewById(R.id.editAge);
+        heightInput = (EditText)findViewById(R.id.editHeight);
+        liftingRegimentInput = (Spinner)findViewById(R.id.editLiftingRegiment_spinner)
+        maxBenchInput = (EditText)findViewById(R.id.editMbench);
+        maxSquatInput = (EditText)findViewById(R.id.editMsquat);
+        maxDeadliftInput = (EditText)findViewById(R.id.editMaxDeadLift);
+        fastestMileInput = (EditText)findViewById(R.id.editFastestMile);
+        submitButton = (Button)findViewById(R.id.Submit);
+
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users");
@@ -87,17 +103,7 @@ public class userProfile extends AppCompatActivity {
             }
         });
 
-        firstNameInput = (EditText)findViewById(R.id.editFirstName);
-        lastNameInput = (EditText)findViewById(R.id.editLastName);
-        birthdayInput = (EditText)findViewById(R.id.editBirthday);
-        usernameInput = (EditText)findViewById(R.id.editUsername);
-        ageInput = (EditText)findViewById(R.id.editAge);
-        heightInput = (EditText)findViewById(R.id.editHeight);
-        maxBenchInput = (EditText)findViewById(R.id.editMbench);
-        maxSquatInput = (EditText)findViewById(R.id.editMsquat);
-        maxDeadliftInput = (EditText)findViewById(R.id.editMaxDeadLift);
-        fastestMileInput = (EditText)findViewById(R.id.editFastestMile);
-        submitButton = (Button)findViewById(R.id.Submit);
+
 
 
 
@@ -113,10 +119,56 @@ public class userProfile extends AppCompatActivity {
             String usernameInputString = usernameInput.getText().toString();
             String ageInputString = ageInput.getText().toString();
             String heightInputString = heightInput.getText().toString();
+            String liftingRegimentInputString = liftingRegimentInput.getSelectedItem().toString();
             String maxBenchInputString = maxBenchInput.getText().toString();
             String maxSquatInputString = maxSquatInput.getText().toString();
             String maxDeadliftInputString = maxDeadliftInput.getText().toString();
             String fastestMileInputString = fastestMileInput.getText().toString();
+
+            final int AVERAGEREPS1 = 8;
+            final int AVERAGEREPS2 = 8;
+            final int AVERAGEREPS3 = 10;
+            int reps1 = AVERAGEREPS1;
+            int reps2 = AVERAGEREPS2;
+            int reps3 = AVERAGEREPS3;
+            int weight1;
+            int weight2;
+            int weight3;
+
+            int prweightbench = Integer.parseInt(maxBenchInputString);
+            int prweightsquat = Integer.parseInt(maxSquatInputString);
+            int prweightdeadlift = Integer.parseInt(maxDeadliftInputString);
+
+            float hypertrophyRepsMultiplier = (float)1.75;
+            float strengthRepsMultiplier = (float)0.80;
+            float powerRepsMultiplier = (float)1.2;
+            float hypertrophyWeightMultiplier = (float)0.7;
+            float strengthWeightMultiplier = (float)0.60;
+            float powerWeightMultiplier = (float)1.0;
+
+            if(liftingRegimentInputString == "Hypertrophy")
+            {
+                reps1 = (int)hypertrophyRepsMultiplier * AVERAGEREPS1;
+                reps2 = (int)hypertrophyRepsMultiplier * AVERAGEREPS2;
+                reps3 = (int)hypertrophyRepsMultiplier * AVERAGEREPS3;
+
+
+
+            }
+            else if(liftingRegimentInputString == "Strength")
+            {
+                reps1 = (int)strengthRepsMultiplier * AVERAGEREPS1;
+                reps2 = (int)strengthRepsMultiplier * AVERAGEREPS2;
+                reps3 = (int)strengthRepsMultiplier * AVERAGEREPS3;
+            }
+            else if(liftingRegimentInputString == "Power")
+            {
+                reps1 = (int)powerRepsMultiplier * AVERAGEREPS1;
+                reps2 = (int)powerRepsMultiplier * AVERAGEREPS2;
+                reps3 = (int)powerRepsMultiplier * AVERAGEREPS3;
+            }
+
+
 
 
 
@@ -141,7 +193,7 @@ public class userProfile extends AppCompatActivity {
 
 
         User u = new User(firstNameInputString,lastNameInputString,birthdayInputString,
-                usernameInputString,ageInputString,heightInputString,maxBenchInputString,
+                usernameInputString,ageInputString,heightInputString,liftingRegimentInputString,maxBenchInputString,
                 maxSquatInputString,maxDeadliftInputString,fastestMileInputString);
 
         u.writeNewUser(firstNameInputString, lastNameInputString, birthdayInputString, usernameInputString,
@@ -163,9 +215,11 @@ public class userProfile extends AppCompatActivity {
                         String height = dataSnapshotValue.get("heightInputString");
                         String age = dataSnapshotValue.get("ageInputString");
                         String fastestMile = dataSnapshotValue.get("fastestMileInputString");
+                        String liftingRegiment = dataSnapshotValue.get("liftingRegimentInputString");
                         String maxBench = dataSnapshotValue.get("maxBenchInputString");
                         String maxSquat = dataSnapshotValue.get("maxSquatInputString");
                         String maxDeadlift = dataSnapshotValue.get("maxDeadliftInputString");
+                        int reps = dataSnapshotValue.get("repsInput");
 
                         firstNameInput.setText(firstName);
                         lastNameInput.setText(lastName);
