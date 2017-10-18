@@ -1,12 +1,14 @@
 package com.example.i864514.projectspotr;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.icu.text.SimpleDateFormat;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Date;
 
 public class workoutPage extends AppCompatActivity {
 
@@ -47,16 +51,25 @@ public class workoutPage extends AppCompatActivity {
         holdsWorkouts = (LinearLayout)findViewById(R.id.holdsWorkouts);
         holdsSetsAndReps = (LinearLayout)findViewById(R.id.holdsWorkouts);
         todaysDate = (TextView)findViewById(R.id.date);
-
-
-
-
-
         String Date = "";
+//        Intent getDateIntent = getIntent();
+//        getDateIntent.getStringExtra("");
 
-        //new SimpleDateFormat("dd-MM-yyyy").format("dd-MM-yyyy");
+
+        Date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
+
+
+
+        Bundle extras = getIntent().getExtras();
+        String userDateName;
+
+        if (extras != null) {
+            Date = extras.getString(calendarView.extraDate);
+        }
 
         todaysDate.setText(Date);
+
+
 
 
 
@@ -124,15 +137,16 @@ public class workoutPage extends AppCompatActivity {
                 returnedString = data.getStringExtra(extraExercise);
                 ((TextView) newView.findViewById(R.id.exerciseText)).setText(returnedString);
             }
-
-            if(resultCode == RESULT_OK){
-                returnedString2 = data.getStringExtra(extraDate);
-                ((TextView) newView.findViewById(R.id.exerciseText)).setText(returnedString);
-            }
+//
+//            if(resultCode == RESULT_OK){
+//                returnedString2 = data.getStringExtra(extraDate);
+//                todaysDate.setText(returnedString2);
+//            }
         }
 
 
     }
+
 
     public void makeGUIs(){
 
