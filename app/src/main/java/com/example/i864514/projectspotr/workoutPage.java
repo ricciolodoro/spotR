@@ -20,6 +20,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 public class workoutPage extends AppCompatActivity {
 
     TextView todaysDate;
@@ -54,7 +56,7 @@ public class workoutPage extends AppCompatActivity {
 
         String Date = "";
 
-        //new SimpleDateFormat("dd-MM-yyyy").format("dd-MM-yyyy");
+        Date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
         todaysDate.setText(Date);
 

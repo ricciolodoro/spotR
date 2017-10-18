@@ -176,20 +176,47 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/height"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Height"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light"
-                    android:textStyle="bold" />
+                android:id="@+id/height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Height"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light"
+                android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/editHeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/liftingRegiment"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:text="Lifting Regiment:"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/editLiftingRegiment_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.04"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text=""
