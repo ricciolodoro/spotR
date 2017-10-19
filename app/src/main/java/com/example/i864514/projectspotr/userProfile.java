@@ -55,7 +55,7 @@ public class userProfile extends AppCompatActivity {
         usernameInput = (EditText)findViewById(R.id.editUsername);
         ageInput = (EditText)findViewById(R.id.editAge);
         heightInput = (EditText)findViewById(R.id.editHeight);
-        liftingRegimentInput = (Spinner)findViewById(R.id.editLiftingRegiment_spinner)
+        liftingRegimentInput = (Spinner)findViewById(R.id.editLiftingRegiment_spinner);
         maxBenchInput = (EditText)findViewById(R.id.editMbench);
         maxSquatInput = (EditText)findViewById(R.id.editMsquat);
         maxDeadliftInput = (EditText)findViewById(R.id.editMaxDeadLift);
@@ -92,7 +92,9 @@ public class userProfile extends AppCompatActivity {
                 maxBenchInput.setText(maxBench);
                 maxSquatInput.setText(maxSquat);
                 maxDeadliftInput.setText(maxDeadlift);
+
             }
+
 
 
 
@@ -131,9 +133,9 @@ public class userProfile extends AppCompatActivity {
             int reps1 = AVERAGEREPS1;
             int reps2 = AVERAGEREPS2;
             int reps3 = AVERAGEREPS3;
-            int weight1;
-            int weight2;
-            int weight3;
+            int armWeight = 0;
+            int olympicWeight = 0;
+            int legWeight = 0;
 
             int prweightbench = Integer.parseInt(maxBenchInputString);
             int prweightsquat = Integer.parseInt(maxSquatInputString);
@@ -148,11 +150,13 @@ public class userProfile extends AppCompatActivity {
 
             if(liftingRegimentInputString == "Hypertrophy")
             {
-                reps1 = (int)hypertrophyRepsMultiplier * AVERAGEREPS1;
-                reps2 = (int)hypertrophyRepsMultiplier * AVERAGEREPS2;
-                reps3 = (int)hypertrophyRepsMultiplier * AVERAGEREPS3;
+                reps1 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS1);
+                reps2 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS2);
+                reps3 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS3);
 
-
+                armWeight = (int)(hypertrophyWeightMultiplier * prweightbench);
+                legWeight = (int)(hypertrophyWeightMultiplier * prweightsquat);
+                olympicWeight = (int)(hypertrophyWeightMultiplier * prweightdeadlift);
 
             }
             else if(liftingRegimentInputString == "Strength")
@@ -160,19 +164,34 @@ public class userProfile extends AppCompatActivity {
                 reps1 = (int)strengthRepsMultiplier * AVERAGEREPS1;
                 reps2 = (int)strengthRepsMultiplier * AVERAGEREPS2;
                 reps3 = (int)strengthRepsMultiplier * AVERAGEREPS3;
+
+                armWeight = (int)(strengthWeightMultiplier * prweightbench);
+                legWeight = (int)(strengthWeightMultiplier * prweightsquat);
+                olympicWeight = (int)(strengthWeightMultiplier * prweightdeadlift);
             }
             else if(liftingRegimentInputString == "Power")
             {
                 reps1 = (int)powerRepsMultiplier * AVERAGEREPS1;
                 reps2 = (int)powerRepsMultiplier * AVERAGEREPS2;
                 reps3 = (int)powerRepsMultiplier * AVERAGEREPS3;
+
+                armWeight = (int)(powerWeightMultiplier * prweightbench);
+                legWeight = (int)(powerWeightMultiplier * prweightsquat);
+                olympicWeight = (int)(powerWeightMultiplier * prweightdeadlift);
             }
+    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("armWeight",armWeight).apply();
+    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("legWeight",legWeight).apply();
+    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("olympicWeight",olympicWeight).apply();
+    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps1",armWeight).apply();
+    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps2",legWeight).apply();
+    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps3",olympicWeight).apply();
 
 
 
 
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Name, email address, and profile photo Url
             String name = user.getDisplayName();
@@ -194,11 +213,11 @@ public class userProfile extends AppCompatActivity {
 
         User u = new User(firstNameInputString,lastNameInputString,birthdayInputString,
                 usernameInputString,ageInputString,heightInputString,liftingRegimentInputString,maxBenchInputString,
-                maxSquatInputString,maxDeadliftInputString,fastestMileInputString);
+                maxSquatInputString,maxDeadliftInputString,fastestMileInputString,reps1,reps2,reps3,armWeight,olympicWeight,legWeight);
 
-        u.writeNewUser(firstNameInputString, lastNameInputString, birthdayInputString, usernameInputString,
-                ageInputString, heightInputString, maxBenchInputString, maxSquatInputString, maxDeadliftInputString,
-                fastestMileInputString, userEmail);
+        u.writeNewUser(firstNameInputString,lastNameInputString,birthdayInputString,
+                usernameInputString,ageInputString,heightInputString,liftingRegimentInputString,maxBenchInputString,
+                maxSquatInputString,maxDeadliftInputString,fastestMileInputString,userEmail,reps1,reps2,reps3,armWeight,olympicWeight,legWeight);
 
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference ref = database.getReference("users");
@@ -219,7 +238,7 @@ public class userProfile extends AppCompatActivity {
                         String maxBench = dataSnapshotValue.get("maxBenchInputString");
                         String maxSquat = dataSnapshotValue.get("maxSquatInputString");
                         String maxDeadlift = dataSnapshotValue.get("maxDeadliftInputString");
-                        int reps = dataSnapshotValue.get("repsInput");
+
 
                         firstNameInput.setText(firstName);
                         lastNameInput.setText(lastName);
