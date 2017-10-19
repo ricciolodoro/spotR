@@ -25,9 +25,9 @@ public class User {
     public int reps1;
     public int reps2;
     public int reps3;
-    public float weight1;
-    public float weight2;
-    public float weight3;
+    public int armWeight;
+    public int legWeight;
+    public int olympicWeight;
 
 
     public User() {
@@ -38,7 +38,7 @@ public class User {
                 String birthdayInputString, String usernameInputString,
                 String ageInputString, String heightInputString, String liftingRegimentInputString,
                 String maxBenchInputString, String maxSquatInputString,
-                String maxDeadliftInputString, String fastestMileInputString, int reps1, int reps2, int reps3, int weight1, int weight2, int weight3) {
+                String maxDeadliftInputString, String fastestMileInputString, int reps1, int reps2, int reps3, int armWeight, int legWeight, int olympicWeight) {
         this.firstNameInputString = firstNameInputString;
         this.lastNameInputString = lastNameInputString;
         this.birthdayInputString = birthdayInputString;
@@ -53,9 +53,9 @@ public class User {
         this.reps1=reps1;
         this.reps2=reps2;
         this.reps3=reps3;
-        this.weight1=weight1;
-        this.weight2=weight2;
-        this.weight3=weight3;
+        this.armWeight=armWeight;
+        this.legWeight=legWeight;
+        this.olympicWeight=olympicWeight;
 
     }
 
@@ -64,10 +64,10 @@ public class User {
                               String ageInputString, String heightInputString, String liftingRegimentInputString,
                               String maxBenchInputString, String maxSquatInputString,
                               String maxDeadliftInputString, String fastestMileInputString,
-                              String email, int reps1, int reps2, int reps3, float weight1, float weight2, float weight3) {
+                              String email, int reps1, int reps2, int reps3, int armWeight, int legWeight, int olympicWeight) {
         User user = new User(firstNameInputString, lastNameInputString, birthdayInputString, usernameInputString,
                 ageInputString, heightInputString, liftingRegimentInputString, maxBenchInputString, maxSquatInputString, maxDeadliftInputString,
-                fastestMileInputString, reps1, reps2, reps3, weight1, weight2, weight3);
+                fastestMileInputString, reps1, reps2, reps3, armWeight, legWeight, olympicWeight);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 

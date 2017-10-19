@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -326,6 +327,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra(workoutPage.extraExercise, sendBack.getText());
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("exerciseChoice",sendBack.getText().toString()).apply();
         setResult(RESULT_OK, resultIntent);
         finish();
     }
@@ -384,6 +386,11 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 
 
                 return true;
+
+            case R.id.backHome:
+
+                Intent i = new Intent(exercises.this, Main2Activity.class);
+                startActivity(i);
 
             default:
                 return super.onOptionsItemSelected(item);

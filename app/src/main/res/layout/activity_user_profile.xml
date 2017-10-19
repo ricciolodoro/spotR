@@ -207,7 +207,7 @@
                 <TextView
                     android:id="@+id/liftingRegiment"
                     android:layout_width="96dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="Lifting Regiment:"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
@@ -219,10 +219,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.04"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light" />
+                    android:entries="@+array/spinner_regiment_array"
+                    android:prompt="@+string/choose_regiment"/>
+
 
             </LinearLayout>
 
