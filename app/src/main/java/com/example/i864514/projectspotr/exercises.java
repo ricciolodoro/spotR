@@ -327,7 +327,6 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra(workoutPage.extraExercise, sendBack.getText());
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("exerciseChoice",sendBack.getText().toString()).apply();
         setResult(RESULT_OK, resultIntent);
         finish();
     }

@@ -49,7 +49,7 @@ public class workoutPage extends AppCompatActivity {
     EditText repsForExercise;
     EditText weightForExercise;
     int setCount;
-    String exerciseChoice = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("exerciseChoice","No String Found.");
+    String exerciseChoice;
     int exerciseInt;
 
     final String[] Shoulders  = {"Side Raise", "Dumbbell Rows","Dumbbell Upright Rows","Push Press","Dumbbell Shrugs","Clean and Press","Clean and Jerk","Standing Palms-In Dumbbell Press","Standing Military Press","Seated Barbell Military Press","Power Partials","Seated Dumbbell Press","Reverse Flyes","Alternating Deltoid Raise","Dumbbell Shoulder Press","Leverage Shoulder Press"};
@@ -91,21 +91,25 @@ public class workoutPage extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
               @Override
               public void onDataChange(DataSnapshot dataSnapshot) {
-                  HashMap<String, String> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
+                  HashMap<String, Long> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
 
-                  String reps1String = dataSnapshotValue.get("reps1");
-                  int reps1 = Integer.parseInt(reps1String);
-                  String reps2String = dataSnapshotValue.get("reps2");
-                  int reps2 = Integer.parseInt(reps2String);
-                  String reps3String = dataSnapshotValue.get("reps3");
-                  int reps3 = Integer.parseInt(reps3String);
-                  String armWeightString = dataSnapshotValue.get("armWeight");
-                  int armWeight = Integer.parseInt(armWeightString);
-                  String legWeightString = dataSnapshotValue.get("legWeight");
-                  int legWeight = Integer.parseInt(legWeightString);
-                  String olympicWeightString = dataSnapshotValue.get("olympicWeight");
-                  int olympicWeight = Integer.parseInt(olympicWeightString);
+                  long reps1String = dataSnapshotValue.get("reps1");
+                  int reps1 = (int)reps1String;
+                  long reps2String = dataSnapshotValue.get("reps2");
+                  int reps2 = (int)reps2String;
+                  long reps3String = dataSnapshotValue.get("reps3");
+                  int reps3 = (int)reps3String;
+                  long armWeightString = dataSnapshotValue.get("armWeight");
+                  int armWeight = (int)armWeightString;
+                  long legWeightString = dataSnapshotValue.get("legWeight");
+                  int legWeight = (int)legWeightString;
 
+
+                  if(exerciseChoice == null) {
+                      exerciseChoice = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("exerciseChoice", "No String Found.");
+                  } else {
+                      exerciseChoice = "Neck Flexion";
+                  }
                   if (Arrays.asList(Shoulders,Arms,Back,Chest).contains(exerciseChoice)) {
                       exerciseInt = 1;
                   } else if(Arrays.asList(Legs).contains(exerciseChoice)) {
@@ -295,6 +299,8 @@ public class workoutPage extends AppCompatActivity {
 
             if (resultCode == RESULT_OK){
                 returnedString = data.getStringExtra(extraExercise);
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("exerciseChoice",returnedString).apply();
+
                 ((TextView) newView.findViewById(R.id.exerciseText)).setText(returnedString);
             }
 
