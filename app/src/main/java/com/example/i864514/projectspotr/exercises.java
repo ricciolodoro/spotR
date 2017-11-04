@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -385,6 +386,11 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 
                 return true;
 
+            case R.id.backHome:
+
+                Intent i = new Intent(exercises.this, Main2Activity.class);
+                startActivity(i);
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -428,7 +434,7 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
         listItems = new ArrayList<>(Arrays.asList(All));
 
         adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.txtitem, listItems);
-        Toast.makeText(getBaseContext(), listItems.get(1), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getBaseContext(), listItems.get(1), Toast.LENGTH_SHORT).show();
         listView.setAdapter(adapter);
     }
 
