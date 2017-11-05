@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -328,6 +329,36 @@ public class workoutPage extends AppCompatActivity {
                         ImageButton recordVideo = (ImageButton) newView2.findViewById(R.id.recordVideo);
                         ImageButton viewVideo = (ImageButton) newView2.findViewById(R.id.viewVideo);
 
+                        newView2.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+
+                                final View thisView = v;
+
+                                AlertDialog.Builder adb = new AlertDialog.Builder(workoutPage.this);
+                                // set title and message using string resources
+                                // The  set methods look up the actual values of the resources
+                                adb.setTitle("Are you sure?");
+                                adb.setMessage("This will delete your set");
+                                adb.setCancelable(true);
+                                // negative button does nothing other than dismiss the dialog
+                                adb.setNegativeButton("Cancel", null);
+                                // positive button will carry out the deletion
+                                adb.setPositiveButton("Erase", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        removeSet(thisView);
+                                    }
+                                });
+                                AlertDialog confirmDialog = adb.create();
+
+                                confirmDialog.show();
+                                return true;
+
+
+                            }
+                        });
+
                         recordVideo.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -439,8 +470,8 @@ public class workoutPage extends AppCompatActivity {
     }
 
 
-    public void makeGUIs(){
-
+    public void removeSet(View thisView){
+        ((ViewGroup) thisView.getParent()).removeView(thisView);
     }
 
     @Override

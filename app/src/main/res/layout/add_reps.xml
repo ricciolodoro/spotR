@@ -22,14 +22,14 @@
 
         <EditText
             android:id="@+id/weightForExercise"
-            android:layout_width="126dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:ems="10"
-            android:inputType="number"
             android:hint="0"
-            android:textColorHint="@android:color/holo_orange_light"
-            android:textColor="@android:color/holo_orange_light" />
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_light"
+            android:textColorHint="@android:color/holo_orange_light" />
 
         <TextView
             android:id="@+id/textView3"
@@ -37,25 +37,29 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="R:"
+            android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@android:color/background_light" />
 
         <EditText
             android:id="@+id/repsForExercise"
-            android:layout_width="137dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:ems="10"
-            android:inputType="number"
             android:hint="0"
-            android:textColorHint="@android:color/holo_blue_light"
-            android:textColor="@android:color/background_light" />
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textColorHint="@android:color/holo_blue_light" />
 
         <ImageButton
             android:id="@+id/recordVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingTop="9dp"
+            android:background="@null"
+            android:tint="#BBDEFB"
             app:srcCompat="@drawable/ic_video_call_black_24dp" />
 
         <ImageButton
@@ -63,6 +67,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingTop="9dp"
+            android:background="@null"
+            android:tint="#BBDEFB"
             app:srcCompat="@drawable/ic_image_black_24dp" />
 
     </LinearLayout>
