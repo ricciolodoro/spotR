@@ -1,8 +1,11 @@
 package com.example.i864514.projectspotr;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -96,9 +99,9 @@ public class workoutPage extends AppCompatActivity {
         repsForExercise = (EditText)findViewById(R.id.repsForExercise);
         weightForExercise = (EditText)findViewById(R.id.weightForExercise);
 
-        toRecognizeView = new HashMap<View, Integer>();
-        uriHelper = new ArrayList<>(10);
-        uriHelper.add(null);
+        toRecognizeView = new HashMap<>();
+        uriHelper = new ArrayList<>();
+
 
         String Date = "";
 //        Intent getDateIntent = getIntent();
@@ -293,6 +296,7 @@ public class workoutPage extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         setCount++;
+                        uriHelper.add(null);
                         LayoutInflater inflator2 = getLayoutInflater();
                         View newView2 = inflator2.inflate(R.layout.add_reps, null);
                         holdsSetsAndReps.addView(newView2);
@@ -316,11 +320,28 @@ public class workoutPage extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
 
-                                Uri vidUri = uriHelper.get(toRecognizeView.get((View)v.getParent()));
+                                try {
+                                    Uri vidUri = uriHelper.get(toRecognizeView.get((View) v.getParent()));
 
-                                Intent resultVideoIntent = new Intent(workoutPage.this, watchVideo.class);
-                                resultVideoIntent.putExtra(workoutPage.extraVideo, vidUri);
-                                startActivity(resultVideoIntent);
+                                    Intent resultVideoIntent = new Intent(workoutPage.this, watchVideo.class);
+                                    resultVideoIntent.putExtra(workoutPage.extraVideo, vidUri);
+                                    startActivity(resultVideoIntent);
+
+                                }catch (Exception e){
+                                    AlertDialog.Builder adb = new AlertDialog.Builder(workoutPage.this);
+                                    adb.setTitle("Empty");
+                                    adb.setMessage("You haven't recorded a video for this exercise");
+                                    adb.setCancelable(true);
+                                    // negative button does nothing other than dismiss the dialog
+                                    adb.setNegativeButton("Cancel", null);
+
+                                    adb.setPositiveButton("Ok", null);
+                                    // create the dialog
+                                    AlertDialog confirmDialog = adb.create();
+
+                                    confirmDialog.show();
+                                }
+
                             }
                         });
 
