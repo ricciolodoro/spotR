@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +55,6 @@ public class workoutPage extends AppCompatActivity {
     TextView todaysDate;
     MenuItem addSet;
     ScrollView setsSpace;
-    LinearLayout holdsWorkouts;
     LinearLayout holdsSetsAndReps;
     int requestExerciseCode = 0;
     static String extraExercise = "EXTRA_EXERCISE";
@@ -66,12 +67,15 @@ public class workoutPage extends AppCompatActivity {
     EditText repsForExercise;
     EditText weightForExercise;
     int setCount;
+    int layoutTracker;
     String exerciseChoice;
     int exerciseInt;
     static int ACTIVATE_START_CAMERA_APP = 1;
     Uri uriString = null;
     Map<View, Integer> toRecognizeView;
+    Map<View, LinearLayout> toRecognizeLayout;
     ArrayList<Uri> uriHelper;
+    ArrayList<Uri> layoutHelper;
 
     final String[] Shoulders  = {"Side Raise", "Dumbbell Rows","Dumbbell Upright Rows","Push Press","Dumbbell Shrugs","Clean and Press","Clean and Jerk","Standing Palms-In Dumbbell Press","Standing Military Press","Seated Barbell Military Press","Power Partials","Seated Dumbbell Press","Reverse Flyes","Alternating Deltoid Raise","Dumbbell Shoulder Press","Leverage Shoulder Press"};
     final String[] Chest  = {"Bench press", "Chest fly", "DUMBBELL SQUEEZE PRESS", "INCLINE DUMBBELL BENCH PRESS", "Board Press", "Floor Press", "Guillotine", "Decline Bench Press", "Decline Fly", "Lying Fly", "Seated Fly", "Standing Fly", "Cable Bar", "Chest Press", "Cable Bar", "Decline Chest Press",  "Wide Grip Chest Press", "Decline Fly", "Lying Fly"};
@@ -92,7 +96,7 @@ public class workoutPage extends AppCompatActivity {
         setContentView(R.layout.activity_workout_page);
         addSet = (MenuItem) findViewById(R.id.newSet);
         setsSpace = (ScrollView)findViewById(R.id.scrollViewSetsSpace);
-        holdsWorkouts = (LinearLayout)findViewById(R.id.holdsWorkouts);
+
         holdsSetsAndReps = (LinearLayout)findViewById(R.id.holdsWorkouts);
         todaysDate = (TextView)findViewById(R.id.date);
 
@@ -100,6 +104,7 @@ public class workoutPage extends AppCompatActivity {
         weightForExercise = (EditText)findViewById(R.id.weightForExercise);
 
         toRecognizeView = new HashMap<>();
+        toRecognizeLayout = new HashMap<>();
         uriHelper = new ArrayList<>();
 
 
@@ -286,12 +291,28 @@ public class workoutPage extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.newSet:
+                layoutTracker++;
                 LayoutInflater inflator = getLayoutInflater();
                 newView = inflator.inflate(R.layout.add_sets_to_schedule, null);
-                holdsWorkouts.addView(newView);
+                LayoutInflater inflator3 = getLayoutInflater();
+                View newView3 = inflator3.inflate(R.layout.list_view, null);
+
+
+                LinearLayout holdsWorkouts = (LinearLayout)findViewById(R.id.holdsWorkouts);
+
+
+                holdsWorkouts.addView(newView3);
+
+                LinearLayout forExercises = (LinearLayout) newView3.findViewById(R.id.listView);
+
+                forExercises.addView(newView);
+
                 ImageView addNewSet = (ImageView)newView.findViewById(R.id.addSetsAndReps);
 
                 TextView exercise = (TextView)newView.findViewById(R.id.exerciseText);
+
+                toRecognizeLayout.put(newView, forExercises);
+
                 addNewSet.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -299,7 +320,10 @@ public class workoutPage extends AppCompatActivity {
                         uriHelper.add(null);
                         LayoutInflater inflator2 = getLayoutInflater();
                         View newView2 = inflator2.inflate(R.layout.add_reps, null);
-                        holdsSetsAndReps.addView(newView2);
+
+
+                        toRecognizeLayout.get(v.getParent().getParent()).addView(newView2);
+
 
                         ImageButton recordVideo = (ImageButton) newView2.findViewById(R.id.recordVideo);
                         ImageButton viewVideo = (ImageButton) newView2.findViewById(R.id.viewVideo);
