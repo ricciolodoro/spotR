@@ -21,6 +21,7 @@
         android:clickable="true"
         android:paddingLeft="30dp"
         android:textAlignment="viewEnd"
+        android:tint="#BBDEFB"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <TextView
