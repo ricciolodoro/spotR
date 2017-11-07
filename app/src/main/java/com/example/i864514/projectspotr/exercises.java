@@ -1,10 +1,12 @@
 package com.example.i864514.projectspotr;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -61,6 +64,12 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 // Apply the adapter to the spinner
         bodyPartsSpinner.setAdapter(adapter);
         bodyPartsSpinner.setOnItemSelectedListener(this);
+
+
+//        // hide the soft keyboard
+//        ((InputMethodManager) getSystemService(
+//                Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+//                tagEditText.getWindowToken(), 0);
 
         All = new String[]{"Bench press", "Chest fly", "DUMBBELL SQUEEZE PRESS", "INCLINE DUMBBELL BENCH PRESS", "WEIGHTED PUSHUP", "Board Press", "Floor Press", "Guillotine",
                 "Decline Bench Press", "Chest Dip", "Decline Fly", "Lying Fly", "Seated Fly", "Standing Fly", "Cable Bar", "Chest Press", "Cable Bar", "Decline Chest Press",
@@ -384,6 +393,11 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
 
 
                 return true;
+
+            case R.id.backHome:
+
+                Intent i = new Intent(exercises.this, Main2Activity.class);
+                startActivity(i);
 
             default:
                 return super.onOptionsItemSelected(item);
