@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/previousScreen"
-        android:icon="@drawable/ic_keyboard_arrow_left_black_24dp"
-        android:title="Previous screen"
+        android:id="@+id/clearPage"
+        android:icon="@drawable/ic_close_black_24dp"
+        android:title="Clear Page"
         app:showAsAction="always" />
     <item
         android:id="@+id/home"
