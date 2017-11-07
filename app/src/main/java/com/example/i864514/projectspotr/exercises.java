@@ -353,11 +353,11 @@ public class exercises extends AppCompatActivity implements AdapterView.OnItemSe
                 LayoutInflater inflator2 = getLayoutInflater();
 
                 View newView = inflator.inflate(R.layout.edit_to_search, null);
-                View newView2 = inflator2.inflate(R.layout.list_view, null);
+                View newView2 = inflator2.inflate(R.layout.list_view2, null);
                 View newView3 = inflator2.inflate(R.layout.search_list_view, null);
 
                 EditText editTosearch = (EditText)newView.findViewById(R.id.editToSearch);
-                listView = (ListView)newView2.findViewById(R.id.listView);
+                listView = (ListView) newView2.findViewById(R.id.listView2);
                 fornewList = (LinearLayout)newView3.findViewById(R.id.searchListView);
                 linearLayout.addView(newView);
                 ex.addView(newView2);
