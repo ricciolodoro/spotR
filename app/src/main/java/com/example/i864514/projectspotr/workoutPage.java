@@ -55,6 +55,7 @@ public class workoutPage extends AppCompatActivity {
 
     TextView todaysDate;
     MenuItem addSet;
+    MenuItem homeItem;
     ScrollView setsSpace;
     LinearLayout holdsSetsAndReps;
     int requestExerciseCode = 0;
@@ -96,6 +97,7 @@ public class workoutPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_page);
         addSet = (MenuItem) findViewById(R.id.newSet);
+        homeItem = (MenuItem) findViewById(R.id.home);
         setsSpace = (ScrollView)findViewById(R.id.scrollViewSetsSpace);
 
         holdsSetsAndReps = (LinearLayout)findViewById(R.id.holdsWorkouts);
@@ -266,8 +268,6 @@ public class workoutPage extends AppCompatActivity {
         Date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
 
 
-
-
         Bundle extras = getIntent().getExtras();
         String userDateName;
 
@@ -276,13 +276,7 @@ public class workoutPage extends AppCompatActivity {
             Date = extras.getString(calendarView.extraDate);
         }
 
-
         todaysDate.setText(Date);
-
-
-
-
-
     }
 
 
@@ -412,14 +406,13 @@ public class workoutPage extends AppCompatActivity {
                     }
                 });
 
-
-
-
                 return true;
-//
-//            case R.id.addSetsAndReps:
-//                Toast.makeText(getBaseContext(), "it works",Toast.LENGTH_LONG).show();
-//                return true;
+
+            case R.id.home:
+                Intent returnHome = new Intent(workoutPage.this, Main2Activity.class);
+                startActivity(returnHome);
+            return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -429,8 +422,8 @@ public class workoutPage extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_workout_menu, menu);
 
-        Drawable previousScreenDrawable = menu.findItem(R.id.previousScreen).getIcon();
-        previousScreenDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        Drawable previousScreenDrawable = menu.findItem(R.id.clearPage).getIcon();
+        previousScreenDrawable.setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
 
         Drawable homeDrawable = menu.findItem(R.id.home).getIcon();
         homeDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
