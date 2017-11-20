@@ -22,6 +22,7 @@ public class User {
     public String maxSquatInputString;
     public String maxDeadliftInputString;
     public String fastestMileInputString;
+    public String userID;
     public int reps1;
     public int reps2;
     public int reps3;
@@ -38,7 +39,7 @@ public class User {
                 String birthdayInputString, String usernameInputString,
                 String ageInputString, String heightInputString, String liftingRegimentInputString,
                 String maxBenchInputString, String maxSquatInputString,
-                String maxDeadliftInputString, String fastestMileInputString, int reps1, int reps2, int reps3, int armWeight, int legWeight, int olympicWeight) {
+                String maxDeadliftInputString, String fastestMileInputString, String userID, int reps1, int reps2, int reps3, int armWeight, int legWeight, int olympicWeight) {
         this.firstNameInputString = firstNameInputString;
         this.lastNameInputString = lastNameInputString;
         this.birthdayInputString = birthdayInputString;
@@ -64,15 +65,16 @@ public class User {
                               String ageInputString, String heightInputString, String liftingRegimentInputString,
                               String maxBenchInputString, String maxSquatInputString,
                               String maxDeadliftInputString, String fastestMileInputString,
-                              String email, int reps1, int reps2, int reps3, int armWeight, int legWeight, int olympicWeight) {
+                              String userID, int reps1, int reps2, int reps3, int armWeight, int legWeight, int olympicWeight)
+    {
         User user = new User(firstNameInputString, lastNameInputString, birthdayInputString, usernameInputString,
                 ageInputString, heightInputString, liftingRegimentInputString, maxBenchInputString, maxSquatInputString, maxDeadliftInputString,
-                fastestMileInputString, reps1, reps2, reps3, armWeight, legWeight, olympicWeight);
+                fastestMileInputString, userID, reps1, reps2, reps3, armWeight, legWeight, olympicWeight);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-        mDatabase.child("users").child(email).setValue(user);
+        mDatabase.child("Users").child(userID).setValue(user);
 
     }
 }

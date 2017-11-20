@@ -17,6 +17,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +54,9 @@ import java.util.Map;
 
 public class workoutPage extends AppCompatActivity {
 
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String userID = user.getUid();
+
     TextView todaysDate;
     MenuItem addSet;
     MenuItem homeItem;
@@ -78,6 +82,7 @@ public class workoutPage extends AppCompatActivity {
     Map<View, LinearLayout> toRecognizeLayout;
     ArrayList<Uri> uriHelper;
     ArrayList<Uri> layoutHelper;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     final String[] Shoulders  = {"Side Raise", "Dumbbell Rows","Dumbbell Upright Rows","Push Press","Dumbbell Shrugs","Clean and Press","Clean and Jerk","Standing Palms-In Dumbbell Press","Standing Military Press","Seated Barbell Military Press","Power Partials","Seated Dumbbell Press","Reverse Flyes","Alternating Deltoid Raise","Dumbbell Shoulder Press","Leverage Shoulder Press"};
     final String[] Chest  = {"Bench press", "Chest fly", "DUMBBELL SQUEEZE PRESS", "INCLINE DUMBBELL BENCH PRESS", "Board Press", "Floor Press", "Guillotine", "Decline Bench Press", "Decline Fly", "Lying Fly", "Seated Fly", "Standing Fly", "Cable Bar", "Chest Press", "Cable Bar", "Decline Chest Press",  "Wide Grip Chest Press", "Decline Fly", "Lying Fly"};
@@ -87,9 +92,6 @@ public class workoutPage extends AppCompatActivity {
     final String[] Back  = {"Bent-over Row", "Cambered Bar Lying Row","Incline Row","Kneeling Row","Lying Row","One Arm Bent-over Row","Seated High Row","Seated Wide Grip Row","One Arm Standing Row","T-bar Row","Seated High Row"};
     final String[] BodyWeight  = {"Neck Flexion", "Triceps Dip", "Parallel Close Grip Pull-up","Step-up","Pull-up","Chin-up","Close Grip Pulldown","Rear Pull-up","Trap Bar Shrug","Gripless Shrug","Seated Shoulder External Rotation","Broomstick","Rear Pull-up", "Neck Rotation","Lateral Neck Flexion","Lying Neck Flexion","Chest Dip","Front Neck Bridge","Bench Dip", "Push-up","spinal twist","knees to chest","Underhand Chin-up","cat stretch","back extension","sitting hip stretch", "between benches","Isometric Neck Circuit","Neck Bridge Prone","Chin To Chest Stretch","Neck-SMR"};
     final String[] MinimalWeight = {"Lying Face Down Plate Neck Resistance","DUMBBELL SHRUG","BARBELL SHRUG","Lunge", "WEIGHTED PUSHUP","Car Drivers","Front Plate Raise"};
-
-//    String Date = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("currentTime","No String Found.");
-
 
 
     @Override
@@ -110,6 +112,9 @@ public class workoutPage extends AppCompatActivity {
         toRecognizeLayout = new HashMap<>();
         uriHelper = new ArrayList<>();
 
+        int i = 1;
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("i", i).apply();
+
 
         String Date = "";
 //        Intent getDateIntent = getIntent();
@@ -117,17 +122,24 @@ public class workoutPage extends AppCompatActivity {
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String email = user.getEmail();
+        String userID = user.getUid();
+
+        Date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
 
 
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            Date = extras.getString(calendarView.extraDate);
         }
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users");
+        todaysDate.setText(Date);
 
 
-        ref.addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref1 = database.getReference("Users").child(userID);
+
+
+        ref1.addValueEventListener(new ValueEventListener() {
               @Override
               public void onDataChange(DataSnapshot dataSnapshot) {
                   HashMap<String, Long> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
@@ -143,12 +155,15 @@ public class workoutPage extends AppCompatActivity {
                   long legWeightString = dataSnapshotValue.get("legWeight");
                   int legWeight = (int)legWeightString;
 
-
                   if(exerciseChoice == null) {
-                      exerciseChoice = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("exerciseChoice", "No String Found.");
+                      exerciseChoice = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("exerciseChoice", "Bench press");
                   } else {
                       exerciseChoice = "Neck Flexion";
                   }
+
+                  FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                  String userID = user.getUid();
+
                   if (Arrays.asList(Shoulders,Arms,Back,Chest).contains(exerciseChoice)) {
                       exerciseInt = 1;
                   } else if(Arrays.asList(Legs).contains(exerciseChoice)) {
@@ -179,7 +194,7 @@ public class workoutPage extends AppCompatActivity {
                       break;
                       case 2:
                           repsForExercise.setHint(reps2);
-                              if(exerciseInt == 1){
+                          if(exerciseInt == 1){
                               weightForExercise.setHint((int)(armWeight*1.05));
                           } else if(exerciseInt == 2) {
                               weightForExercise.setHint((int)(legWeight*1.05));
@@ -265,18 +280,7 @@ public class workoutPage extends AppCompatActivity {
 
           });
 
-        Date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
 
-
-        Bundle extras = getIntent().getExtras();
-        String userDateName;
-
-
-        if (extras != null) {
-            Date = extras.getString(calendarView.extraDate);
-        }
-
-        todaysDate.setText(Date);
     }
 
 
@@ -463,6 +467,15 @@ public class workoutPage extends AppCompatActivity {
                     if (resultCode == RESULT_OK) {
                         returnedString = data.getStringExtra(extraExercise);
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("exerciseChoice", returnedString).apply();
+
+                        int count = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("i", 1);
+                        count++;
+
+                        String i = Integer.toString(count);
+
+                        String Date = todaysDate.getText().toString();
+
+                        database.getReference("Users").child(userID).child("WorkoutsByDate").child(Date).child(i).child(returnedString);
 
                         ((TextView) newView.findViewById(R.id.exerciseText)).setText(returnedString);
                     }

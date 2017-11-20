@@ -94,6 +94,38 @@ public class registerPage extends AppCompatActivity implements
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+
+                            String userID = user.getUid();
+
+                            String firstNameInputString = "";
+                            String lastNameInputString = "";
+                            String birthdayInputString = "";
+                            String usernameInputString = "";
+                            String ageInputString = "0";
+                            String heightInputString = "0";
+                            String liftingRegimentInputString = "";
+                            String maxBenchInputString = "0";
+                            String maxSquatInputString = "0";
+                            String maxDeadliftInputString = "0";
+                            String fastestMileInputString = "0";
+                            int reps1 = 0;
+                            int reps2 = 0;
+                            int reps3 = 0;
+                            int armWeight = 0;
+                            int legWeight = 0;
+                            int olympicWeight = 0;
+
+
+
+                            User u = new User(firstNameInputString,lastNameInputString,birthdayInputString,
+                                    usernameInputString,ageInputString,heightInputString,liftingRegimentInputString,maxBenchInputString,
+                                    maxSquatInputString,maxDeadliftInputString,fastestMileInputString, userID, reps1,reps2,reps3,armWeight,olympicWeight,legWeight);
+
+
+                            u.writeNewUser(firstNameInputString, lastNameInputString, birthdayInputString,
+                                    usernameInputString, ageInputString, heightInputString, liftingRegimentInputString, maxBenchInputString,
+                                    maxSquatInputString, maxDeadliftInputString, fastestMileInputString, userID, reps1, reps2, reps3, armWeight, olympicWeight, legWeight);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -127,6 +159,10 @@ public class registerPage extends AppCompatActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            String userID = user.getUid();
+
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("userID",userID).apply();
+
                             updateUI(user);
 
 

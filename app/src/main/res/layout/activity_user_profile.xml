@@ -8,21 +8,38 @@
     tools:context="com.example.i864514.projectspotr.userProfile">
 
 
+    <Button
+        android:id="@+id/Submit"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/common_google_signin_btn_text_light_focused"
+        android:text="Submit"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="11dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="11dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="47dp"
-        tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="47dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="47dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="date"
                     android:text=""
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light" />
@@ -163,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:text=""
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light" />
@@ -176,14 +193,14 @@
                 android:orientation="horizontal">
 
                 <TextView
-                android:id="@+id/height"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Height"
-                android:textAlignment="center"
-                android:textColor="@android:color/background_light"
-                android:textStyle="bold" />
+                    android:id="@+id/height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Height"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/editHeight"
@@ -218,9 +235,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1.04"
+                    android:background="@color/common_google_signin_btn_text_dark_pressed"
+                    android:dropDownWidth="match_parent"
                     android:ems="10"
                     android:entries="@+array/spinner_regiment_array"
-                    android:prompt="@+string/choose_regiment"/>
+                    android:popupBackground="@color/common_google_signin_btn_text_light_pressed"
+                    android:prompt="@+string/choose_regiment" />
 
 
             </LinearLayout>
@@ -330,7 +350,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="numberDecimal"
+                    android:inputType="time"
                     android:text=""
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light" />
@@ -339,16 +359,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/Submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

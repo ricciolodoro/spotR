@@ -94,8 +94,11 @@ public class userProfile extends AppCompatActivity {
         fastestMileInput = (EditText)findViewById(R.id.editFastestMile);
         submitButton = (Button)findViewById(R.id.Submit);
 
+        String userID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("userID","No String Found.");
+
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users");
+        DatabaseReference ref = database.getReference("Users").child(userID);
 
         ref.addValueEventListener(new ValueEventListener() {
 
@@ -138,9 +141,6 @@ public class userProfile extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-
-
-
                         String firstNameInputString = firstNameInput.getText().toString();
                         String lastNameInputString = lastNameInput.getText().toString();
                         String birthdayInputString = birthdayInput.getText().toString();
@@ -152,10 +152,6 @@ public class userProfile extends AppCompatActivity {
                         String maxSquatInputString = maxSquatInput.getText().toString();
                         String maxDeadliftInputString = maxDeadliftInput.getText().toString();
                         String fastestMileInputString = fastestMileInput.getText().toString();
-
-
-
-
 
                         final int AVERAGEREPS1 = 8;
                         final int AVERAGEREPS2 = 8;
@@ -210,9 +206,6 @@ public class userProfile extends AppCompatActivity {
                             olympicWeight = (int)(powerWeightMultiplier * prweightdeadlift);
                         }
 
-
-
-
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("armWeight",armWeight).apply();
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("legWeight",legWeight).apply();
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("olympicWeight",olympicWeight).apply();
@@ -220,87 +213,63 @@ public class userProfile extends AppCompatActivity {
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps2",legWeight).apply();
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps3",olympicWeight).apply();
 
+                        String userID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("userID","No String Found.");
+
+                        Log.d("this is the userID:",userID);
 
 
 
-
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        if (user != null) {
-                            // Name, email address, and profile photo Url
-                            String name = user.getDisplayName();
-                            String email = user.getEmail();
-
-                            // The user's ID, unique to the Firebase project. Do NOT use this value to
-                            // authenticate with your backend server, if you have one. Use
-                            // FirebaseUser.getToken() instead.
-                            String uid = user.getUid();
-
-                            Intent i = new Intent(userProfile.this, Main2Activity.class);
-                            startActivity(i);
-
-
-                        }
-
-                        String userEmail = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("userEmail","No String Found.");
-
-
-
-
+//                        ref.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                HashMap<String,String> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
+//
+//                                String firstName = dataSnapshotValue.get("firstNameInputString");
+//                                String lastName = dataSnapshotValue.get("lastNameInputString");
+//                                String birthday = dataSnapshotValue.get("birthdayInputString");
+//                                String username = dataSnapshotValue.get("usernameInputString");
+//                                String height = dataSnapshotValue.get("heightInputString");
+//                                String age = dataSnapshotValue.get("ageInputString");
+//                                String fastestMile = dataSnapshotValue.get("fastestMileInputString");
+//                                String maxBench = dataSnapshotValue.get("maxBenchInputString");
+//                                String maxSquat = dataSnapshotValue.get("maxSquatInputString");
+//                                String maxDeadlift = dataSnapshotValue.get("maxDeadliftInputString");
+//
+//
+//                                firstNameInput.setText(firstName);
+//                                lastNameInput.setText(lastName);
+//                                birthdayInput.setText(birthday);
+//                                usernameInput.setText(username);
+//                                heightInput.setText(height);
+//                                ageInput.setText(age);
+//                                fastestMileInput.setText(fastestMile);
+//                                maxBenchInput.setText(maxBench);
+//                                maxSquatInput.setText(maxSquat);
+//                                maxDeadliftInput.setText(maxDeadlift);
+//                            }
 
                         User u = new User(firstNameInputString,lastNameInputString,birthdayInputString,
                                 usernameInputString,ageInputString,heightInputString,liftingRegimentInputString,maxBenchInputString,
-                                maxSquatInputString,maxDeadliftInputString,fastestMileInputString,reps1,reps2,reps3,armWeight,olympicWeight,legWeight);
-
+                                maxSquatInputString,maxDeadliftInputString,fastestMileInputString, userID, reps1,reps2,reps3,armWeight,olympicWeight,legWeight);
 
                         u.writeNewUser(firstNameInputString, lastNameInputString, birthdayInputString,
                                 usernameInputString, ageInputString, heightInputString, liftingRegimentInputString, maxBenchInputString,
-                                maxSquatInputString, maxDeadliftInputString, fastestMileInputString, userEmail, reps1, reps2, reps3, armWeight, olympicWeight, legWeight);
-
-
-                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference ref = database.getReference("users");
-
-                        ref.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                HashMap<String,String> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
-
-                                String firstName = dataSnapshotValue.get("firstNameInputString");
-                                String lastName = dataSnapshotValue.get("lastNameInputString");
-                                String birthday = dataSnapshotValue.get("birthdayInputString");
-                                String username = dataSnapshotValue.get("usernameInputString");
-                                String height = dataSnapshotValue.get("heightInputString");
-                                String age = dataSnapshotValue.get("ageInputString");
-                                String fastestMile = dataSnapshotValue.get("fastestMileInputString");
-                                String maxBench = dataSnapshotValue.get("maxBenchInputString");
-                                String maxSquat = dataSnapshotValue.get("maxSquatInputString");
-                                String maxDeadlift = dataSnapshotValue.get("maxDeadliftInputString");
-
-
-                                firstNameInput.setText(firstName);
-                                lastNameInput.setText(lastName);
-                                birthdayInput.setText(birthday);
-                                usernameInput.setText(username);
-                                heightInput.setText(height);
-                                ageInput.setText(age);
-                                fastestMileInput.setText(fastestMile);
-                                maxBenchInput.setText(maxBench);
-                                maxSquatInput.setText(maxSquat);
-                                maxDeadliftInput.setText(maxDeadlift);
-                            }
+                                maxSquatInputString, maxDeadliftInputString, fastestMileInputString, userID, reps1, reps2, reps3, armWeight, olympicWeight, legWeight);
 
 
 
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                System.out.println("The read failed: " + databaseError.getCode());
-                            }
-                        });
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//                                System.out.println("The read failed: " + databaseError.getCode());
+//                            }
+//                        });
 
 
 
                         Toast.makeText(getApplicationContext(),"Details Submitted.",Toast.LENGTH_SHORT);
+
+                        Intent i = new Intent(userProfile.this, Main2Activity.class);
+                        startActivity(i);
                     }
                 });
 
