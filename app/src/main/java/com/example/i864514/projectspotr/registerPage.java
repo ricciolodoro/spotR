@@ -121,10 +121,10 @@ public class registerPage extends AppCompatActivity implements
                                     usernameInputString,ageInputString,heightInputString,liftingRegimentInputString,maxBenchInputString,
                                     maxSquatInputString,maxDeadliftInputString,fastestMileInputString, userID, reps1,reps2,reps3,armWeight,olympicWeight,legWeight);
 
-
                             u.writeNewUser(firstNameInputString, lastNameInputString, birthdayInputString,
                                     usernameInputString, ageInputString, heightInputString, liftingRegimentInputString, maxBenchInputString,
                                     maxSquatInputString, maxDeadliftInputString, fastestMileInputString, userID, reps1, reps2, reps3, armWeight, olympicWeight, legWeight);
+
 
                         } else {
                             // If sign in fails, display a message to the user.
