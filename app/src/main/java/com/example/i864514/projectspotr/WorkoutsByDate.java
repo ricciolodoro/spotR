@@ -34,7 +34,16 @@ public class WorkoutsByDate {
 
         WorkoutsByDate workout= new WorkoutsByDate(userID, Date, workoutCount);
 
-        mDatabase.child("Users").child(userID).child("WorkoutsByDate").child(Date).child(workoutCount).setValue(workout);
+        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).child("Workout Info").setValue(workout);
 
+    }
+
+    public void deleteDate(String userID, String Date, String workoutCount)
+    {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        WorkoutsByDate workout= new WorkoutsByDate(userID, Date, workoutCount);
+
+        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).setValue("");
     }
 }

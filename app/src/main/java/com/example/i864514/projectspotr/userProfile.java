@@ -147,7 +147,7 @@ public class userProfile extends AppCompatActivity {
                         String usernameInputString = usernameInput.getText().toString();
                         String ageInputString = ageInput.getText().toString();
                         String heightInputString = heightInput.getText().toString();
-                        String liftingRegimentInputString = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("liftingRegiment","No String Found.");
+                        String liftingRegimentInputString = liftingRegimentInput.getSelectedItem().toString();
                         String maxBenchInputString = maxBenchInput.getText().toString();
                         String maxSquatInputString = maxSquatInput.getText().toString();
                         String maxDeadliftInputString = maxDeadliftInput.getText().toString();
@@ -159,9 +159,9 @@ public class userProfile extends AppCompatActivity {
                         int reps1 = AVERAGEREPS1;
                         int reps2 = AVERAGEREPS2;
                         int reps3 = AVERAGEREPS3;
-                        int armWeight = 0;
-                        int olympicWeight = 0;
-                        int legWeight = 0;
+                        int armWeight = 1;
+                        int olympicWeight = 1;
+                        int legWeight = 1;
 
                         int prweightbench = Integer.parseInt(maxBenchInputString);
                         int prweightsquat = Integer.parseInt(maxSquatInputString);
@@ -174,7 +174,9 @@ public class userProfile extends AppCompatActivity {
                         float strengthWeightMultiplier = (float)0.60;
                         float powerWeightMultiplier = (float)1.0;
 
-                        if(liftingRegimentInputString == "Hypertrophy")
+                        Log.d("liftin string is:", liftingRegimentInputString);
+
+                        if(liftingRegimentInputString.equalsIgnoreCase("Hypertrophy"))
                         {
                             reps1 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS2);
@@ -185,7 +187,7 @@ public class userProfile extends AppCompatActivity {
                             olympicWeight = (int)(hypertrophyWeightMultiplier * prweightdeadlift);
 
                         }
-                        else if(liftingRegimentInputString == "Strength")
+                        else if(liftingRegimentInputString.equalsIgnoreCase("Strength"))
                         {
                             reps1 = (int)(strengthRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(strengthRepsMultiplier * AVERAGEREPS2);
@@ -195,7 +197,7 @@ public class userProfile extends AppCompatActivity {
                             legWeight = (int)(strengthWeightMultiplier * prweightsquat);
                             olympicWeight = (int)(strengthWeightMultiplier * prweightdeadlift);
                         }
-                        else if(liftingRegimentInputString == "Power")
+                        else if(liftingRegimentInputString.equalsIgnoreCase("Power"))
                         {
                             reps1 = (int)(powerRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(powerRepsMultiplier * AVERAGEREPS2);
@@ -206,18 +208,12 @@ public class userProfile extends AppCompatActivity {
                             olympicWeight = (int)(powerWeightMultiplier * prweightdeadlift);
                         }
 
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("armWeight",armWeight).apply();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("legWeight",legWeight).apply();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("olympicWeight",olympicWeight).apply();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps1",armWeight).apply();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps2",legWeight).apply();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps3",olympicWeight).apply();
+                        String text = Integer.toString(armWeight);
+                        Log.d("bla", text);
 
                         String userID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("userID","No String Found.");
 
                         Log.d("this is the userID:",userID);
-
-
 
 //                        ref.addValueEventListener(new ValueEventListener() {
 //                            @Override
@@ -256,6 +252,12 @@ public class userProfile extends AppCompatActivity {
                                 usernameInputString, ageInputString, heightInputString, liftingRegimentInputString, maxBenchInputString,
                                 maxSquatInputString, maxDeadliftInputString, fastestMileInputString, userID, reps1, reps2, reps3, armWeight, olympicWeight, legWeight);
 
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("armWeight",armWeight).apply();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("legWeight",legWeight).apply();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("olympicWeight",olympicWeight).apply();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps1", reps1).apply();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps2", reps2).apply();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("reps3", reps3).apply();
 
 
 //                            @Override

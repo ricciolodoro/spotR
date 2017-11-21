@@ -47,7 +47,7 @@ public class SetsByWorkout {
 
         SetsByWorkout set = new SetsByWorkout(userID, Date, workoutCount, videoURI, reps, weight, setCount);
 
-        mDatabase.child("Users").child(userID).child("WorkoutsByDate").child(Date).child(workoutCount).child(setCount).setValue(set);
+        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).child(workoutCount).child(setCount).setValue(set);
 
     }
 
