@@ -17,6 +17,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -52,6 +55,9 @@ import java.util.Map;
 
 
 public class workoutPage extends AppCompatActivity {
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String userID = user.getUid();
 
     TextView todaysDate;
     MenuItem addSet;
@@ -70,7 +76,7 @@ public class workoutPage extends AppCompatActivity {
     EditText weightForExercise;
     int setCount;
     int layoutTracker;
-    String exerciseChoice;
+    String workout;
     int exerciseInt;
     static int ACTIVATE_START_CAMERA_APP = 1;
     Uri uriString = null;
@@ -78,6 +84,7 @@ public class workoutPage extends AppCompatActivity {
     Map<View, LinearLayout> toRecognizeLayout;
     ArrayList<Uri> uriHelper;
     ArrayList<Uri> layoutHelper;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     final String[] Shoulders  = {"Side Raise", "Dumbbell Rows","Dumbbell Upright Rows","Push Press","Dumbbell Shrugs","Clean and Press","Clean and Jerk","Standing Palms-In Dumbbell Press","Standing Military Press","Seated Barbell Military Press","Power Partials","Seated Dumbbell Press","Reverse Flyes","Alternating Deltoid Raise","Dumbbell Shoulder Press","Leverage Shoulder Press"};
     final String[] Chest  = {"Bench press", "Chest fly", "DUMBBELL SQUEEZE PRESS", "INCLINE DUMBBELL BENCH PRESS", "Board Press", "Floor Press", "Guillotine", "Decline Bench Press", "Decline Fly", "Lying Fly", "Seated Fly", "Standing Fly", "Cable Bar", "Chest Press", "Cable Bar", "Decline Chest Press",  "Wide Grip Chest Press", "Decline Fly", "Lying Fly"};
@@ -87,9 +94,6 @@ public class workoutPage extends AppCompatActivity {
     final String[] Back  = {"Bent-over Row", "Cambered Bar Lying Row","Incline Row","Kneeling Row","Lying Row","One Arm Bent-over Row","Seated High Row","Seated Wide Grip Row","One Arm Standing Row","T-bar Row","Seated High Row"};
     final String[] BodyWeight  = {"Neck Flexion", "Triceps Dip", "Parallel Close Grip Pull-up","Step-up","Pull-up","Chin-up","Close Grip Pulldown","Rear Pull-up","Trap Bar Shrug","Gripless Shrug","Seated Shoulder External Rotation","Broomstick","Rear Pull-up", "Neck Rotation","Lateral Neck Flexion","Lying Neck Flexion","Chest Dip","Front Neck Bridge","Bench Dip", "Push-up","spinal twist","knees to chest","Underhand Chin-up","cat stretch","back extension","sitting hip stretch", "between benches","Isometric Neck Circuit","Neck Bridge Prone","Chin To Chest Stretch","Neck-SMR"};
     final String[] MinimalWeight = {"Lying Face Down Plate Neck Resistance","DUMBBELL SHRUG","BARBELL SHRUG","Lunge", "WEIGHTED PUSHUP","Car Drivers","Front Plate Raise"};
-
-//    String Date = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("currentTime","No String Found.");
-
 
 
     @Override
@@ -117,166 +121,21 @@ public class workoutPage extends AppCompatActivity {
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String email = user.getEmail();
-
-
-        }
-
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users");
-
-
-        ref.addValueEventListener(new ValueEventListener() {
-              @Override
-              public void onDataChange(DataSnapshot dataSnapshot) {
-                  HashMap<String, Long> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
-
-                  long reps1String = dataSnapshotValue.get("reps1");
-                  int reps1 = (int)reps1String;
-                  long reps2String = dataSnapshotValue.get("reps2");
-                  int reps2 = (int)reps2String;
-                  long reps3String = dataSnapshotValue.get("reps3");
-                  int reps3 = (int)reps3String;
-                  long armWeightString = dataSnapshotValue.get("armWeight");
-                  int armWeight = (int)armWeightString;
-                  long legWeightString = dataSnapshotValue.get("legWeight");
-                  int legWeight = (int)legWeightString;
-
-
-                  if(exerciseChoice == null) {
-                      exerciseChoice = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("exerciseChoice", "No String Found.");
-                  } else {
-                      exerciseChoice = "Neck Flexion";
-                  }
-                  if (Arrays.asList(Shoulders,Arms,Back,Chest).contains(exerciseChoice)) {
-                      exerciseInt = 1;
-                  } else if(Arrays.asList(Legs).contains(exerciseChoice)) {
-                      exerciseInt = 2;
-                  } else if(Arrays.asList(BodyWeight,Abs).contains(exerciseChoice)) {
-                      exerciseInt = 3;
-                  } else if(Arrays.asList(MinimalWeight).contains(exerciseChoice)) {
-                      exerciseInt = 4;
-                  } else {
-                      exerciseInt = 0;
-                  }
-
-                  switch(setCount) {
-                      case 1:
-                          repsForExercise.setHint(reps1);
-                          if(exerciseInt == 1){
-                              weightForExercise.setHint(armWeight);
-                          } else if(exerciseInt == 2) {
-                              weightForExercise.setHint(legWeight);
-                          } else if(exerciseInt == 3) {
-                              weightForExercise.setHint("Body Weight");
-                          } else if(exerciseInt == 4) {
-                              weightForExercise.setHint((int)(armWeight/5.2));
-                          }
-                          else if (exerciseInt == 0) {
-                              weightForExercise.setHint("Choose Exercise");
-                          }
-                      break;
-                      case 2:
-                          repsForExercise.setHint(reps2);
-                              if(exerciseInt == 1){
-                              weightForExercise.setHint((int)(armWeight*1.05));
-                          } else if(exerciseInt == 2) {
-                              weightForExercise.setHint((int)(legWeight*1.05));
-                          } else if(exerciseInt == 3) {
-                              weightForExercise.setHint("Body Weight");
-                          } else if(exerciseInt == 4) {
-                              weightForExercise.setHint((int)(armWeight/5.2*1.05));
-                          }
-                          else if (exerciseInt == 0) {
-                              weightForExercise.setHint("Choose Exercise");
-                          }
-                      break;
-                      case 3:
-                          repsForExercise.setHint(reps3);
-                          if(exerciseInt == 1){
-                              weightForExercise.setHint((int)(armWeight*1.10));
-                          } else if(exerciseInt == 2) {
-                              weightForExercise.setHint((int)(legWeight*1.10));
-                          } else if(exerciseInt == 3) {
-                              weightForExercise.setHint("Body Weight");
-                          } else if(exerciseInt == 4) {
-                              weightForExercise.setHint((int)(armWeight/5.2*1.10));
-                          }
-                          else if (exerciseInt == 0) {
-                              weightForExercise.setHint("Choose Exercise");
-                          }
-                      break;
-                      case 4:
-                          repsForExercise.setHint(reps3);
-                          if(exerciseInt == 1){
-                              weightForExercise.setHint((int)(armWeight*1.10));
-                          } else if(exerciseInt == 2) {
-                              weightForExercise.setHint((int)(legWeight*1.10));
-                          } else if(exerciseInt == 3) {
-                              weightForExercise.setHint("Body Weight");
-                          } else if(exerciseInt == 4) {
-                              weightForExercise.setHint((int)(armWeight/5.2*1.10));
-                          }
-                          else if (exerciseInt == 0) {
-                              weightForExercise.setHint("Choose Exercise");
-                          }
-                      break;
-                      case 5:
-                          repsForExercise.setHint(reps3);
-                          if(exerciseInt == 1){
-                              weightForExercise.setHint((int)(armWeight*1.10));
-                          } else if(exerciseInt == 2) {
-                              weightForExercise.setHint((int)(legWeight*1.10));
-                          } else if(exerciseInt == 3) {
-                              weightForExercise.setHint("Body Weight");
-                          } else if(exerciseInt == 4) {
-                              weightForExercise.setHint((int)(armWeight/5.2*1.10));
-                          }
-                          else if (exerciseInt == 0) {
-                              weightForExercise.setHint("Choose Exercise");
-                          }
-                      break;
-                      case 6:
-                          repsForExercise.setHint(reps3);
-                          if(exerciseInt == 1){
-                              weightForExercise.setHint((int)(armWeight*1.10));
-                          } else if(exerciseInt == 2) {
-                              weightForExercise.setHint((int)(legWeight*1.10));
-                          } else if(exerciseInt == 3) {
-                              weightForExercise.setHint("Body Weight");
-                          } else if(exerciseInt == 4) {
-                              weightForExercise.setHint((int)(armWeight/5.2*1.10));
-                          }
-                          else if (exerciseInt == 0) {
-                              weightForExercise.setHint("Choose Exercise");
-                          }
-                      break;
-
-                  }
-
-
-              }
-
-              @Override
-              public void onCancelled(DatabaseError FirebaseError) {
-
-              }
-
-          });
+        String userID = user.getUid();
 
         Date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
 
 
         Bundle extras = getIntent().getExtras();
-        String userDateName;
-
 
         if (extras != null) {
             Date = extras.getString(calendarView.extraDate);
         }
 
         todaysDate.setText(Date);
+
+
+
     }
 
 
@@ -304,7 +163,7 @@ public class workoutPage extends AppCompatActivity {
 
                 ImageView addNewSet = (ImageView)newView.findViewById(R.id.addSetsAndReps);
 
-                TextView exercise = (TextView)newView.findViewById(R.id.exerciseText);
+                final TextView exercise = (TextView)newView.findViewById(R.id.exerciseText);
 
                 toRecognizeLayout.put(newView, forExercises);
 
@@ -318,6 +177,7 @@ public class workoutPage extends AppCompatActivity {
 
 
                         toRecognizeLayout.get(v.getParent().getParent()).addView(newView2);
+
 
 
                         ImageButton recordVideo = (ImageButton) newView2.findViewById(R.id.recordVideo);
@@ -372,6 +232,10 @@ public class workoutPage extends AppCompatActivity {
                                 try {
                                     Uri vidUri = uriHelper.get(toRecognizeView.get((View) v.getParent()));
 
+                                    String vUri = vidUri.toString();
+
+                                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("vidUri", vUri);
+
                                     Intent resultVideoIntent = new Intent(workoutPage.this, watchVideo.class);
                                     resultVideoIntent.putExtra(workoutPage.extraVideo, vidUri);
                                     startActivity(resultVideoIntent);
@@ -394,6 +258,223 @@ public class workoutPage extends AppCompatActivity {
                             }
                         });
 
+                        String Date = todaysDate.getText().toString();
+                        String workout = exercise.getText().toString();
+                        final String videoURI = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("vidUri", "No Uri Found.");
+
+                        int re;
+                        int w = 135;
+
+
+                        int reps1 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("reps1", 1);
+                        int reps2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("reps2", 1);
+                        int reps3 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("reps3", 1);
+                        int armWeight = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("armWeight", 135);
+                        int legWeight = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("armWeight", 135);
+
+
+                        if (Arrays.asList(Shoulders).contains(workout)) {
+                            exerciseInt = 1;
+                        } else if (Arrays.asList(Arms).contains(workout)) {
+                            exerciseInt = 1;
+                        } else if (Arrays.asList(Back).contains(workout)) {
+                            exerciseInt = 1;
+                        } else if (Arrays.asList(Chest).contains(workout)) {
+                            exerciseInt = 1;
+                        } else if(Arrays.asList(Legs).contains(workout)) {
+                            exerciseInt = 2;
+                        } else if(Arrays.asList(BodyWeight).contains(workout)) {
+                            exerciseInt = 3;
+                        } else if(Arrays.asList(Abs).contains(workout)) {
+                            exerciseInt = 3;
+                        } else if(Arrays.asList(MinimalWeight).contains(workout)) {
+                            exerciseInt = 4;
+                        } else {
+                            exerciseInt = 0;
+                        }
+
+                        switch(setCount) {
+                            case 1:
+//                                repsForExercise.setHint(reps1);
+                                re = reps1;
+                                if(exerciseInt == 1){
+//                                    weightForExercise.setHint(armWeight);
+                                    w = armWeight;
+                                } else if(exerciseInt == 2) {
+//                                    weightForExercise.setHint(legWeight);
+                                    w = legWeight;
+                                } else if(exerciseInt == 3) {
+//                                    weightForExercise.setHint("Body Weight");
+                                    w = 0;
+                                } else if(exerciseInt == 4) {
+//                                    weightForExercise.setHint((int)(armWeight/5.2));
+                                    w = (int)(armWeight/5.2);
+                                }
+                                else if (exerciseInt == 0) {
+//                                    weightForExercise.setHint("Choose Exercise");
+                                }
+                                break;
+                            case 2:
+//                                repsForExercise.setHint(reps2);
+                                re = reps2;
+                                if(exerciseInt == 1){
+//                                    weightForExercise.setHint((int)(armWeight*1.05));
+                                    w = (int)(armWeight*1.05);
+                                } else if(exerciseInt == 2) {
+//                                    weightForExercise.setHint((int)(legWeight*1.05));
+                                    w = (int)(legWeight*1.05);
+                                } else if(exerciseInt == 3) {
+//                                    weightForExercise.setHint("Body Weight");
+                                    w = 0;
+                                } else if(exerciseInt == 4) {
+//                                    weightForExercise.setHint((int)(armWeight/5.2*1.05));
+                                    w = (int)(armWeight/5.2*1.05);
+                                }
+                                else if (exerciseInt == 0) {
+//                                    weightForExercise.setHint("Choose Exercise");
+                                }
+                                break;
+                            case 3:
+//                                repsForExercise.setHint(reps3);
+                                re = reps3;
+                                if(exerciseInt == 1){
+//                                    weightForExercise.setHint((int)(armWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 2) {
+//                                    weightForExercise.setHint((int)(legWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 3) {
+//                                    weightForExercise.setHint("Body Weight");
+                                    w = 0;
+                                } else if(exerciseInt == 4) {
+//                                    weightForExercise.setHint((int)(armWeight/5.2*1.10));
+                                    w = (int)(armWeight/5.2*1.10);
+                                }
+                                else if (exerciseInt == 0) {
+//                                    weightForExercise.setHint("Choose Exercise");
+                                }
+                                break;
+                            case 4:
+//                                repsForExercise.setHint(reps3);
+                                re = reps3;
+                                if(exerciseInt == 1){
+//                                    weightForExercise.setHint((int)(armWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 2) {
+//                                    weightForExercise.setHint((int)(legWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 3) {
+//                                    weightForExercise.setHint("Body Weight");
+                                    w = 0;
+                                } else if(exerciseInt == 4) {
+//                                    weightForExercise.setHint((int)(armWeight/5.2*1.10));
+                                    w = (int)(armWeight/5.2*1.10);
+                                }
+                                else if (exerciseInt == 0) {
+//                                    weightForExercise.setHint("Choose Exercise");
+                                }
+                                break;
+                            case 5:
+//                                repsForExercise.setHint(reps3);
+                                re = reps3;
+                                if(exerciseInt == 1){
+//                                    weightForExercise.setHint((int)(armWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 2) {
+//                                    weightForExercise.setHint((int)(legWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 3) {
+//                                    weightForExercise.setHint("Body Weight");
+                                    w = 0;
+                                } else if(exerciseInt == 4) {
+//                                    weightForExercise.setHint((int)(armWeight/5.2*1.10));
+                                    w = (int)(armWeight/5.2*1.10);
+                                }
+                                else if (exerciseInt == 0) {
+//                                    weightForExercise.setHint("Choose Exercise");
+                                }
+                                break;
+                            case 6:
+//                                repsForExercise.setHint(reps3);
+                                re = reps3;
+                                if(exerciseInt == 1){
+//                                    weightForExercise.setHint((int)(armWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 2) {
+//                                    weightForExercise.setHint((int)(legWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 3) {
+//                                    weightForExercise.setHint("Body Weight");
+                                    w = 0;
+                                } else if(exerciseInt == 4) {
+//                                    weightForExercise.setHint((int)(armWeight/5.2*1.10));
+                                    w = (int)(armWeight/5.2*1.10);
+                                }
+                                else if (exerciseInt == 0) {
+//                                    weightForExercise.setHint("Choose Exercise");
+                                }
+                                break;
+                            default:
+//                                repsForExercise.setHint(reps3);
+                                re = reps3;
+                                if(exerciseInt == 1){
+//                                    weightForExercise.setHint((int)(armWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 2) {
+//                                    weightForExercise.setHint((int)(legWeight*1.10));
+                                    w = ((int)(armWeight*1.10));
+                                } else if(exerciseInt == 3) {
+//                                    weightForExercise.setHint("Body Weight");
+                                    w = 0;
+                                } else if(exerciseInt == 4) {
+//                                    weightForExercise.setHint((int)(armWeight/5.2*1.10));
+                                    w = (int)(armWeight/5.2*1.10);
+                                }
+                                else if (exerciseInt == 0) {
+//                                    weightForExercise.setHint("Choose Exercise");
+                                }
+                                break;
+
+                        }
+
+
+
+
+//
+                        String reps = Integer.toString(re);
+                        String weight = Integer.toString(w);
+
+                        String setsCount = Integer.toString(setCount);
+
+
+                        SetsByWorkout s = new SetsByWorkout();
+                        s.writeNewSet(userID, Date, workout, videoURI, reps, weight, setsCount);
+
+//                        DatabaseReference reference = database.getReference("Workouts").child(userID).child("WorkoutsByDate").child(Date).child(workout).child(setsCount);
+//
+//                        reference.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                HashMap<String, String> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
+//                                String userID = dataSnapshotValue.get("userID");
+//                                String Date = dataSnapshotValue.get("Date");
+//                                String reps = dataSnapshotValue.get("reps");
+//                                String weight = dataSnapshotValue.get("weight");
+//                                String setCount = dataSnapshotValue.get("setCount");
+//                                String vidUri = dataSnapshotValue.get("vidUri");
+//
+//                                todaysDate.setText(Date);
+//////                                repsForExercise.setText("0");
+//////                                weightForExercise.setText("1"); WHAT DO I SET THE TEXT TO IF NOT THESE OBJECTS?
+//                                //vidUri Need to find a way to save this...
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+
                     }
                 });
 
@@ -414,6 +495,14 @@ public class workoutPage extends AppCompatActivity {
             return true;
 
             case R.id.clearPage:
+
+                String a = userID;
+                String b = todaysDate.getText().toString();
+                String c = "";
+
+                WorkoutsByDate w = new WorkoutsByDate(a, b, c);
+
+                w.deleteDate(a, b, c);
 
                 AlertDialog.Builder adb = new AlertDialog.Builder(workoutPage.this);
                 // set title and message using string resources
@@ -462,7 +551,46 @@ public class workoutPage extends AppCompatActivity {
 
                     if (resultCode == RESULT_OK) {
                         returnedString = data.getStringExtra(extraExercise);
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("exerciseChoice", returnedString).apply();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("workout", returnedString).apply();
+
+                        String workoutType = returnedString;
+                        String Date = todaysDate.getText().toString();
+
+//                        DatabaseReference ref1 = database.getReference("Users").child(userID);
+//
+//
+//                        ref1.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                HashMap<String, Long> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
+//
+//                                long reps1String = dataSnapshotValue.get("reps1");
+//                                int reps1 = (int)reps1String;
+//                                long reps2String = dataSnapshotValue.get("reps2");
+//                                int reps2 = (int)reps2String;
+//                                long reps3String = dataSnapshotValue.get("reps3");
+//                                int reps3 = (int)reps3String;
+//                                long armWeightString = dataSnapshotValue.get("armWeight");
+//                                int armWeight = (int)armWeightString;
+//                                long legWeightString = dataSnapshotValue.get("legWeight");
+//                                int legWeight = (int)legWeightString;
+//
+//
+
+//                            @Override
+//                            public void onCancelled(DatabaseError FirebaseError) {
+//
+//                            }
+//
+//                        });
+
+
+                        WorkoutsByDate w = new WorkoutsByDate();
+                        w.deleteDate(userID, Date, workoutType);
+                        w.writeNewDate(userID, Date, workoutType); // DEBUG NOTE: MUST REMOVE CURRENT SETS HERE EACH TIME SOMEONE CLICKS THE WORKOUT NAME, SETS FOR THAT WORKOUT WILL BE DELETED.
+
+
+                        setCount = 0;
 
                         ((TextView) newView.findViewById(R.id.exerciseText)).setText(returnedString);
                     }
