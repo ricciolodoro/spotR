@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,14 +21,15 @@
             android:textColor="@android:color/background_light" />
 
         <EditText
-            android:id="@+id/editText6"
-            android:layout_width="126dp"
+            android:id="@+id/weightForExercise"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:ems="10"
+            android:hint="0"
             android:inputType="number"
-            android:text="0"
-            android:textColor="@android:color/holo_orange_light" />
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_light"
+            android:textColorHint="@android:color/holo_orange_light" />
 
         <TextView
             android:id="@+id/textView3"
@@ -35,17 +37,40 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="R:"
+            android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@android:color/background_light" />
 
         <EditText
-            android:id="@+id/editText5"
-            android:layout_width="156dp"
+            android:id="@+id/repsForExercise"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:ems="10"
+            android:hint="0"
             android:inputType="number"
-            android:text="0"
-            android:textColor="@android:color/background_light" />
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textColorHint="@android:color/holo_blue_light" />
+
+        <ImageButton
+            android:id="@+id/recordVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="9dp"
+            android:background="@null"
+            android:tint="#BBDEFB"
+            app:srcCompat="@drawable/ic_video_call_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/viewVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="9dp"
+            android:background="@null"
+            android:tint="#BBDEFB"
+            app:srcCompat="@drawable/ic_image_black_24dp" />
+
     </LinearLayout>
 </LinearLayout>
