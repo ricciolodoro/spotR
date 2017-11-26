@@ -201,7 +201,17 @@ public class workoutPage extends AppCompatActivity {
                                 tempView = v;
                                 Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
                                 toRecognizeSets.put((View)v.getParent(),Integer.parseInt(weightForExercise.getText().toString()));
-                                //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
+                                String weight = weightForExercise.getText().toString();
+                                Toast.makeText(getBaseContext(), "New Weight: " + weight, Toast.LENGTH_SHORT).show();
+
+                                String Date = todaysDate.getText().toString();
+                                String workoutCount = exercise.getText().toString();
+                                String vidURI = "";
+                                String reps = "0";
+                                String setsCount = Integer.toString(setCount);
+
+                                SetsByWorkout s = new SetsByWorkout(userID, Date, workoutCount, vidURI, reps, weight, setsCount);
+                                s.writeNewWeight(userID, Date, workoutCount, weight, setsCount);
                             }
                         });
 
@@ -220,7 +230,8 @@ public class workoutPage extends AppCompatActivity {
                             public void afterTextChanged(Editable s) {
                                 //toRecognizeView.get(tempView.getParent());
                                 //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
-                                    Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+
                             }
                         });
 
@@ -231,6 +242,17 @@ public class workoutPage extends AppCompatActivity {
                                 Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
                                 toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
                                 //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
+                                String reps = repsForExercise.getText().toString();
+                                Toast.makeText(getBaseContext(), "New Reps: " + reps, Toast.LENGTH_SHORT).show();
+
+                                String Date = todaysDate.getText().toString();
+                                String workoutCount = exercise.getText().toString();
+                                String vidURI = "";
+                                String weight = "";
+                                String setsCount = Integer.toString(setCount);
+
+                                SetsByWorkout s = new SetsByWorkout(userID, Date, workoutCount, vidURI, reps, weight, setsCount);
+                                s.writeNewReps(userID, Date, workoutCount, reps, setsCount);
                             }
                         });
 
@@ -302,14 +324,17 @@ public class workoutPage extends AppCompatActivity {
                             public void onClick(View v) {
 
                                 try {
-                                    Uri vidUri = uriHelper.get(toRecognizeView.get((View) v.getParent()));
-
-                                    String vUri = vidUri.toString();
-
-                                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("vidUri", vUri);
+                                    Uri videoUri = uriHelper.get(toRecognizeView.get((View) v.getParent()));
+//                                    String vidUri = videoUri.toString();
+//
+//                                    String Date = todaysDate.getText().toString();
+//                                    String setsCount = Integer.toString(setCount);
+//
+//                                    SetsByWorkout s = new SetsByWorkout();
+//                                    s.writeNewVidUri(userID, Date, workout, vidUri, setsCount);
 
                                     Intent resultVideoIntent = new Intent(workoutPage.this, watchVideo.class);
-                                    resultVideoIntent.putExtra(workoutPage.extraVideo, vidUri);
+                                    resultVideoIntent.putExtra(workoutPage.extraVideo, videoUri);
                                     startActivity(resultVideoIntent);
 
                                 }catch (Exception e){
@@ -332,7 +357,8 @@ public class workoutPage extends AppCompatActivity {
 
                         String Date = todaysDate.getText().toString();
                         String workout = exercise.getText().toString();
-                        final String videoURI = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("vidUri", "No Uri Found.");
+
+
 
                         int re;
                         int w = 135;
@@ -518,9 +544,11 @@ public class workoutPage extends AppCompatActivity {
 
                         String setsCount = Integer.toString(setCount);
 
+                        Uri videoUri = Uri.EMPTY;
+                        String vidUri = videoUri.toString();
 
                         SetsByWorkout s = new SetsByWorkout();
-                        s.writeNewSet(userID, Date, workout, videoURI, reps, weight, setsCount);
+                        s.writeNewSet(userID, Date, workout, vidUri, reps, weight, setsCount);
 
 //                        DatabaseReference reference = database.getReference("Workouts").child(userID).child("WorkoutsByDate").child(Date).child(workout).child(setsCount);
 //
@@ -568,13 +596,7 @@ public class workoutPage extends AppCompatActivity {
 
             case R.id.clearPage:
 
-                String a = userID;
-                String b = todaysDate.getText().toString();
-                String c = "";
 
-                WorkoutsByDate w = new WorkoutsByDate(a, b, c);
-
-                w.deleteDate(a, b, c);
 
                 AlertDialog.Builder adb = new AlertDialog.Builder(workoutPage.this);
                 // set title and message using string resources
@@ -589,6 +611,14 @@ public class workoutPage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         holdsSetsAndReps.removeAllViews();
+
+                        String a = userID;
+                        String b = todaysDate.getText().toString();
+                        String c = "";
+
+                        WorkoutsByDate w = new WorkoutsByDate(a, b, c);
+
+                        w.deleteDate(a, b, c);
                     }
                 });
                 AlertDialog confirmDialog = adb.create();
