@@ -14,10 +14,11 @@
         android:layout_width="wrap_content"
         android:layout_height="307dp"
         android:layout_weight="0.01"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintLeft_creator="1"
+        android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <ImageView
         android:id="@+id/deleteButton"

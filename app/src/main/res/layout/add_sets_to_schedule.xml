@@ -19,9 +19,9 @@
         android:layout_height="50dp"
         android:layout_weight="0.09"
         android:clickable="true"
-        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:textAlignment="viewEnd"
-        android:tint="#BBDEFB"
+        android:tint="#76FF03"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <TextView
@@ -30,11 +30,23 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.23"
         android:clickable="true"
-        android:paddingLeft="20dp"
+
         android:paddingTop="8dp"
         android:text="Pick Workout"
+        android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textSize="21sp" />
+
+    <ImageView
+        android:id="@+id/deleteSetsAndReps"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.09"
+        android:clickable="true"
+        android:paddingLeft="30dp"
+        android:textAlignment="viewEnd"
+        android:tint="#FF3D00"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
 </LinearLayout>
 </LinearLayout>
