@@ -171,10 +171,19 @@ public class workoutPage extends AppCompatActivity {
                 forExercises.addView(newView);
 
                 ImageView addNewSet = (ImageView)newView.findViewById(R.id.addSetsAndReps);
+                ImageView deleteSets = (ImageView)newView.findViewById(R.id.deleteSetsAndReps);
 
                 final TextView exercise = (TextView)newView.findViewById(R.id.exerciseText);
 
                 toRecognizeLayout.put(newView, forExercises);
+
+                deleteSets.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        (toRecognizeLayout.get(v.getParent().getParent())).removeAllViews();
+
+                    }
+                });
 
                 addNewSet.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -312,7 +321,7 @@ public class workoutPage extends AppCompatActivity {
                                     resultVideoIntent.putExtra(workoutPage.extraVideo, vidUri);
                                     startActivity(resultVideoIntent);
 
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     AlertDialog.Builder adb = new AlertDialog.Builder(workoutPage.this);
                                     adb.setTitle("Empty");
                                     adb.setMessage("You haven't recorded a video for this exercise");
@@ -548,6 +557,7 @@ public class workoutPage extends AppCompatActivity {
 //                        });
 
                     }
+
                 });
 
                 exercise.setOnClickListener(new View.OnClickListener() {
