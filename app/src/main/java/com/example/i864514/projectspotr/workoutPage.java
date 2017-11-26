@@ -16,7 +16,9 @@ import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,9 +84,14 @@ public class workoutPage extends AppCompatActivity {
     Uri uriString = null;
     Map<View, Integer> toRecognizeView;
     Map<View, LinearLayout> toRecognizeLayout;
+    Map<View, Integer> toRecognizeReps;
+    Map<View, Integer> toRecognizeSets;
+    int weightToSave = 0;
+
     ArrayList<Uri> uriHelper;
     ArrayList<Uri> layoutHelper;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    View tempView;
 
     final String[] Shoulders  = {"Side Raise", "Dumbbell Rows","Dumbbell Upright Rows","Push Press","Dumbbell Shrugs","Clean and Press","Clean and Jerk","Standing Palms-In Dumbbell Press","Standing Military Press","Seated Barbell Military Press","Power Partials","Seated Dumbbell Press","Reverse Flyes","Alternating Deltoid Raise","Dumbbell Shoulder Press","Leverage Shoulder Press"};
     final String[] Chest  = {"Bench press", "Chest fly", "DUMBBELL SQUEEZE PRESS", "INCLINE DUMBBELL BENCH PRESS", "Board Press", "Floor Press", "Guillotine", "Decline Bench Press", "Decline Fly", "Lying Fly", "Seated Fly", "Standing Fly", "Cable Bar", "Chest Press", "Cable Bar", "Decline Chest Press",  "Wide Grip Chest Press", "Decline Fly", "Lying Fly"};
@@ -112,6 +119,8 @@ public class workoutPage extends AppCompatActivity {
 
         toRecognizeView = new HashMap<>();
         toRecognizeLayout = new HashMap<>();
+        toRecognizeSets = new HashMap<>();
+        toRecognizeReps = new HashMap<>();
         uriHelper = new ArrayList<>();
 
 
@@ -183,6 +192,67 @@ public class workoutPage extends AppCompatActivity {
                         ImageButton recordVideo = (ImageButton) newView2.findViewById(R.id.recordVideo);
                         ImageButton viewVideo = (ImageButton) newView2.findViewById(R.id.viewVideo);
 
+                        final EditText weightForExercise = (EditText) newView2.findViewById(R.id.weightForExercise);
+                        final EditText repsForExercise = (EditText) newView2.findViewById(R.id.repsForExercise);
+
+                        weightForExercise.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                tempView = v;
+                                Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
+                                toRecognizeSets.put((View)v.getParent(),Integer.parseInt(weightForExercise.getText().toString()));
+                                //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        weightForExercise.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                //toRecognizeView.get(tempView.getParent());
+                                //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
+                                    Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        repsForExercise.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                tempView = v;
+                                Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
+                                toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
+                                //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        repsForExercise.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                //toRecognizeView.get(tempView.getParent());
+                                //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
+                                Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                         newView2.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
@@ -212,6 +282,8 @@ public class workoutPage extends AppCompatActivity {
 
                             }
                         });
+
+
 
                         recordVideo.setOnClickListener(new View.OnClickListener() {
                             @Override
