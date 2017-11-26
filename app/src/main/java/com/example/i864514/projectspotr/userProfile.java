@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +79,9 @@ public class userProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic("spotR_Reminders");
 
 
 
@@ -178,6 +182,10 @@ public class userProfile extends AppCompatActivity {
 
                         if(liftingRegimentInputString.equalsIgnoreCase("Hypertrophy"))
                         {
+                            FirebaseMessaging.getInstance().subscribeToTopic("Hypertrophy_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Power_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Strength_Reminders");
+
                             reps1 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS2);
                             reps3 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS3);
@@ -189,6 +197,10 @@ public class userProfile extends AppCompatActivity {
                         }
                         else if(liftingRegimentInputString.equalsIgnoreCase("Strength"))
                         {
+                            FirebaseMessaging.getInstance().subscribeToTopic("Strength_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Power_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Hypertrophy_Reminders");
+
                             reps1 = (int)(strengthRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(strengthRepsMultiplier * AVERAGEREPS2);
                             reps3 = (int)(strengthRepsMultiplier * AVERAGEREPS3);
@@ -199,6 +211,10 @@ public class userProfile extends AppCompatActivity {
                         }
                         else if(liftingRegimentInputString.equalsIgnoreCase("Power"))
                         {
+                            FirebaseMessaging.getInstance().subscribeToTopic("Power_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Hypertrophy_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Strength_Reminders");
+
                             reps1 = (int)(powerRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(powerRepsMultiplier * AVERAGEREPS2);
                             reps3 = (int)(powerRepsMultiplier * AVERAGEREPS3);
