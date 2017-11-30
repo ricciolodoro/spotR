@@ -239,7 +239,7 @@
                     android:dropDownWidth="match_parent"
                     android:ems="10"
                     android:entries="@+array/spinner_regiment_array"
-                    android:popupBackground="@color/common_google_signin_btn_text_light_pressed"
+                    android:popupBackground="@android:color/background_light"
                     android:prompt="@+string/choose_regiment" />
 
 
