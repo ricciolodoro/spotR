@@ -1,7 +1,7 @@
 <resources>
     <string name="create">Create \n \n Workout</string>
     <string name="todays">Todays \n \n Workout</string>
-    <string name="weight">Calendar \n \n View</string>
+    <string name="weight">Workout \n \n Calendar</string>
     <string name="workout">User \n \n Profile</string>
     <string name="choose_regiment">Choose your /n lifting regiment</string>
     <string name="runing">Running \n \n Map</string>
