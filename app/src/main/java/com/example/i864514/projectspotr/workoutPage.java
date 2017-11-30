@@ -219,8 +219,7 @@ public class workoutPage extends AppCompatActivity {
 
                         toRecognizeLayout.get(v.getParent().getParent()).addView(newView2);
 
-
-
+                        
                         ImageButton recordVideo = (ImageButton) newView2.findViewById(R.id.recordVideo);
                         ImageButton viewVideo = (ImageButton) newView2.findViewById(R.id.viewVideo);
 
@@ -231,8 +230,12 @@ public class workoutPage extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 tempView = v;
-                                Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
-                                toRecognizeSets.put((View)v.getParent(),Integer.parseInt(weightForExercise.getText().toString()));
+                                //Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
+                                try {
+                                    toRecognizeSets.put((View)v.getParent(),Integer.parseInt(weightForExercise.getText().toString()));
+                                }catch (Exception e){
+
+                                }
                                 //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -252,7 +255,7 @@ public class workoutPage extends AppCompatActivity {
                             public void afterTextChanged(Editable s) {
                                 //toRecognizeView.get(tempView.getParent());
                                 //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
-                                    Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -260,8 +263,12 @@ public class workoutPage extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 tempView = v;
-                                Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
-                                toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
+                                //Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
+                                try{
+                                    toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
+                                }catch (Exception e){
+
+                                }
                                 //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -281,7 +288,7 @@ public class workoutPage extends AppCompatActivity {
                             public void afterTextChanged(Editable s) {
                                 //toRecognizeView.get(tempView.getParent());
                                 //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
-                                Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
                             }
                         });
 
