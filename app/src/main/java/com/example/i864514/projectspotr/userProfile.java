@@ -3,6 +3,7 @@ package com.example.i864514.projectspotr;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +58,8 @@ public class userProfile extends AppCompatActivity {
     EditText maxDeadliftInput;
     EditText fastestMileInput;
     Button submitButton;
+
+    Resources res;
 
     private int getIndex(Spinner spinner, String myString)
     {
@@ -78,6 +83,11 @@ public class userProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        res = getResources();
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic("spotR_Reminders");
 
 
 
@@ -124,6 +134,7 @@ public class userProfile extends AppCompatActivity {
 
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("liftingRegiment",liftingRegiment).apply();
 
+                String text = String.format(res.getString(R.string.suggestedworkout), liftingRegiment);
 
                 firstNameInput.setText(firstName);
                 lastNameInput.setText(lastName);
@@ -178,6 +189,10 @@ public class userProfile extends AppCompatActivity {
 
                         if(liftingRegimentInputString.equalsIgnoreCase("Hypertrophy"))
                         {
+                            FirebaseMessaging.getInstance().subscribeToTopic("Hypertrophy_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Power_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Strength_Reminders");
+
                             reps1 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS2);
                             reps3 = (int)(hypertrophyRepsMultiplier * AVERAGEREPS3);
@@ -189,6 +204,10 @@ public class userProfile extends AppCompatActivity {
                         }
                         else if(liftingRegimentInputString.equalsIgnoreCase("Strength"))
                         {
+                            FirebaseMessaging.getInstance().subscribeToTopic("Strength_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Power_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Hypertrophy_Reminders");
+
                             reps1 = (int)(strengthRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(strengthRepsMultiplier * AVERAGEREPS2);
                             reps3 = (int)(strengthRepsMultiplier * AVERAGEREPS3);
@@ -199,6 +218,10 @@ public class userProfile extends AppCompatActivity {
                         }
                         else if(liftingRegimentInputString.equalsIgnoreCase("Power"))
                         {
+                            FirebaseMessaging.getInstance().subscribeToTopic("Power_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Hypertrophy_Reminders");
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Strength_Reminders");
+
                             reps1 = (int)(powerRepsMultiplier * AVERAGEREPS1);
                             reps2 = (int)(powerRepsMultiplier * AVERAGEREPS2);
                             reps3 = (int)(powerRepsMultiplier * AVERAGEREPS3);

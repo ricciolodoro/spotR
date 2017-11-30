@@ -24,6 +24,7 @@ package com.example.i864514.projectspotr;
         import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
         import com.google.firebase.database.ValueEventListener;
+        import com.google.firebase.messaging.FirebaseMessaging;
 
         import java.util.Map;
         import java.util.Set;
@@ -114,7 +115,6 @@ public class registerPage extends AppCompatActivity implements
                             int armWeight = 0;
                             int legWeight = 0;
                             int olympicWeight = 0;
-
 
 
                             User u = new User(firstNameInputString,lastNameInputString,birthdayInputString,

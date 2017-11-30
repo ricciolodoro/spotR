@@ -10,4 +10,5 @@
     <string name="app_name">ProjectSpotR</string>
     <string name="auth_failed">Authentication Failure.</string>
     <string name="signed_out">You\'ve Been Signed Out.</string>
+    <string name="suggestedworkout">Suggested Workout</string>
 </resources>

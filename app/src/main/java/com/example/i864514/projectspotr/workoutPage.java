@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -25,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,7 +36,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,11 +57,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static android.R.id.list;
+
 
 public class workoutPage extends AppCompatActivity {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userID = user.getUid();
+
+    private SlidingUpPanelLayout mLayout;
+    ListView holdsSuggestedWorkouts;
+    int workoutCount;
 
     TextView todaysDate;
     MenuItem addSet;
@@ -72,12 +80,14 @@ public class workoutPage extends AppCompatActivity {
     static String extraDate = "EXTRA_DATE";
     String returnedString = "";
     String returnedString2 = "";
+    String Date;
     View newView;
     View newViewForVideos;
     EditText repsForExercise;
     EditText weightForExercise;
     int setCount;
     int layoutTracker;
+    String currentExercise;
     String workout;
     int exerciseInt;
     static int ACTIVATE_START_CAMERA_APP = 1;
@@ -87,10 +97,16 @@ public class workoutPage extends AppCompatActivity {
     Map<View, Integer> toRecognizeReps;
     Map<View, Integer> toRecognizeSets;
     int weightToSave = 0;
+    ArrayList<String> array = new ArrayList<>();
+
 
     ArrayList<Uri> uriHelper;
     ArrayList<Uri> layoutHelper;
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    ArrayList<HashMap<String,String>> workoutlist = new ArrayList<>();
+    private FirebaseDatabase database;
+    private DatabaseReference myRef1;
+
+
     View tempView;
 
     final String[] Shoulders  = {"Side Raise", "Dumbbell Rows","Dumbbell Upright Rows","Push Press","Dumbbell Shrugs","Clean and Press","Clean and Jerk","Standing Palms-In Dumbbell Press","Standing Military Press","Seated Barbell Military Press","Power Partials","Seated Dumbbell Press","Reverse Flyes","Alternating Deltoid Raise","Dumbbell Shoulder Press","Leverage Shoulder Press"};
@@ -111,8 +127,12 @@ public class workoutPage extends AppCompatActivity {
         homeItem = (MenuItem) findViewById(R.id.home);
         setsSpace = (ScrollView)findViewById(R.id.scrollViewSetsSpace);
 
+        mLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
+        holdsSuggestedWorkouts = (ListView)findViewById(R.id.list_main);
+
         holdsSetsAndReps = (LinearLayout)findViewById(R.id.holdsWorkouts);
         todaysDate = (TextView)findViewById(R.id.date);
+        currentExercise = "No Exercise Chosen";
 
         repsForExercise = (EditText)findViewById(R.id.repsForExercise);
         weightForExercise = (EditText)findViewById(R.id.weightForExercise);
@@ -123,8 +143,33 @@ public class workoutPage extends AppCompatActivity {
         toRecognizeReps = new HashMap<>();
         uriHelper = new ArrayList<>();
 
+        panelListener();
 
-        String Date = "";
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        if(mDatabase.child("Workouts").child(userID) != null) {
+            myRef1 = mDatabase.child("Workouts").child(userID);
+
+            myRef1.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.child("Workouts").child(userID).child(Date).getChildrenCount() > 0) {
+                        int workoutcount = dataSnapshot.child("Workouts").child(userID).child(Date).child("workoutcount").getValue(DatesByUserID.class).getWorkoutcount();
+                        addWorkouts(workoutcount, dataSnapshot);
+                    }
+                }
+
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+
+
+
 //        Intent getDateIntent = getIntent();
 //        getDateIntent.getStringExtra("");
 
@@ -143,9 +188,149 @@ public class workoutPage extends AppCompatActivity {
 
         todaysDate.setText(Date);
 
+        database = FirebaseDatabase.getInstance();
+
+        if(database.getReference().child("Workouts").child(userID).child(Date) != null) {
+
+            myRef1 = database.getReference().child("Workouts").child(userID).child(Date);
+
+            myRef1.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    getData(dataSnapshot);
+
+
+                   }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+        }
 
 
     }
+
+    private void addWorkouts(int workoutcount, DataSnapshot dataSnapshot) {
+        for(int i = workoutcount; i>=0; i--){
+            layoutTracker++;
+            LayoutInflater inflator = getLayoutInflater();
+            newView = inflator.inflate(R.layout.add_sets_to_schedule, null);
+            LayoutInflater inflator3 = getLayoutInflater();
+            View newView3 = inflator3.inflate(R.layout.list_view, null);
+
+            LinearLayout holdsWorkouts = (LinearLayout)findViewById(R.id.holdsWorkouts);
+
+            holdsWorkouts.addView(newView3);
+
+            LinearLayout forExercises = (LinearLayout) newView3.findViewById(R.id.listView);
+
+            forExercises.addView(newView);
+
+            toRecognizeLayout.put(newView, forExercises);
+
+            int setcount = (int)dataSnapshot.child("Workouts").child(userID).child(Date).child("workouts").child("sets").getChildrenCount();
+            for(int j = setcount; j>=0; j--){
+                setCount++;
+                uriHelper.add(null);
+                LayoutInflater inflator2 = getLayoutInflater();
+                View newView2 = inflator2.inflate(R.layout.add_reps, null);
+                View v = holdsSetsAndReps;
+                toRecognizeLayout.get(v.getParent().getParent()).addView(newView2);
+
+            }
+        }
+    }
+
+
+    private void getData(DataSnapshot dataSnapshot) {
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+            DatesByUserID d = new DatesByUserID();
+            WorkoutsByDate w = new WorkoutsByDate();
+            SetsByWorkout s = new SetsByWorkout();
+
+            if(ds.child("Workouts").child(userID).child(Date).getChildrenCount()>0) {
+
+                d.setWorkoutcount(ds.child("Workouts").child(userID).child(Date).getValue(DatesByUserID.class).getWorkoutcount());
+                if(ds.child("Workouts").child(userID).child(Date).child("workouts").getChildrenCount()>0) {
+                for (int i = 0; i < d.getWorkoutcount(); i++) {
+                    w.setWorkout(ds.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(i)).getValue(WorkoutsByDate.class).getWorkout());
+                    w.setSetcount(ds.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(i)).getValue(WorkoutsByDate.class).getSetcount());
+
+                    HashMap<String, String> workouts = new HashMap<>();
+                    workouts.put("workout",w.getWorkout());
+                    workouts.put("workoutcount",Integer.toString(w.getSetcount()));
+
+
+                    if(ds.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(i)).child("sets").getChildrenCount()>0)
+                    for (int j = 0; j < w.getSetcount(); j++) {
+                        s.setWeight(ds.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(i)).child("sets").child(Integer.toString(j)).getValue(SetsByWorkout.class).getWeight());
+                        s.setReps(ds.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(i)).child("sets").child(Integer.toString(j)).getValue(SetsByWorkout.class).getReps());
+                        s.setViduri(ds.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(i)).child("sets").child(Integer.toString(j)).getValue(SetsByWorkout.class).getViduri());
+                        HashMap<String, String> sets = new HashMap<>();
+                        sets.put("weight",Integer.toString(s.getWeight()));
+                        sets.put("reps",Integer.toString(s.getReps()));
+                        sets.put("viduri",s.getViduri());
+
+                        workouts.put(Integer.toString(j),sets.toString());
+
+                    }
+                    HashMapAdapter adapter = new HashMapAdapter(workouts);
+                    holdsSuggestedWorkouts.setAdapter(adapter);
+                }
+
+
+
+                }
+            }
+
+        }
+    }
+
+    private void panelListener() {
+
+        mLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                Log.e("Slide Panel:", "onPanelSlide, offset " + slideOffset);
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                Log.e("Slide Panel:", "onPanelExpanded");
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                Log.e("Slide Panel:", "onPanelCollapsed");
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+                Log.e("Slide Panel:", "onPanelAnchored");
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+                Log.e("Slide Panel:", "onPanelHidden");
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mLayout != null && (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
 
 
@@ -205,6 +390,7 @@ public class workoutPage extends AppCompatActivity {
 
 
 
+
                     }
                 });
 
@@ -226,18 +412,51 @@ public class workoutPage extends AppCompatActivity {
                         final EditText weightForExercise = (EditText) newView2.findViewById(R.id.weightForExercise);
                         final EditText repsForExercise = (EditText) newView2.findViewById(R.id.repsForExercise);
 
+                        if(!array.isEmpty()) {
+                            weightForExercise.setHint("4");
+                            repsForExercise.setHint("3");
+                        }
+
                         weightForExercise.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 tempView = v;
-                                //Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
-                                try {
-                                    toRecognizeSets.put((View)v.getParent(),Integer.parseInt(weightForExercise.getText().toString()));
-                                }catch (Exception e){
 
+                                Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
+                                try {
+                                    toRecognizeSets.put((View) v.getParent(), Integer.parseInt(weightForExercise.getText().toString()));
+                                } catch (NumberFormatException ex){
+                                    ex.printStackTrace();
                                 }
-                                //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
-                            }
+                                String weight = weightForExercise.getText().toString();
+                                Toast.makeText(getBaseContext(), "New Weight: " + weight, Toast.LENGTH_SHORT).show();
+
+
+
+                                myRef1 = database.getReference().child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(workoutCount));
+
+                                myRef1.addValueEventListener(new ValueEventListener() {
+
+                                    String weight = weightForExercise.getText().toString();
+
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                                        SetsByWorkout s = new SetsByWorkout();
+
+                                        mDatabase.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(workoutCount)).child("sets").child(Integer.toString(setCount)).child("weight").setValue(weight);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                          }
+
                         });
 
                         weightForExercise.addTextChangedListener(new TextWatcher() {
@@ -255,7 +474,10 @@ public class workoutPage extends AppCompatActivity {
                             public void afterTextChanged(Editable s) {
                                 //toRecognizeView.get(tempView.getParent());
                                 //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
-                                    //Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+
+                                Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+
+
                             }
                         });
 
@@ -263,13 +485,39 @@ public class workoutPage extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 tempView = v;
-                                //Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
-                                try{
-                                    toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
-                                }catch (Exception e){
 
+                                Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
+                                if(repsForExercise.getText().toString()!=null){
+                                toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
                                 }
-                                //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
+                                final String reps = repsForExercise.getText().toString();
+                                Toast.makeText(getBaseContext(), "New Reps: " + reps, Toast.LENGTH_SHORT).show();
+
+                                myRef1 = database.getReference().child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(workoutCount));
+
+                                myRef1.addValueEventListener(new ValueEventListener() {
+
+                                    String reps = repsForExercise.getText().toString();
+
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                                        SetsByWorkout s = new SetsByWorkout();
+
+                                        mDatabase.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(workoutCount)).child("sets").child(Integer.toString(setCount)).child("reps").setValue(reps);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+
                             }
                         });
 
@@ -311,6 +559,8 @@ public class workoutPage extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         removeSet(thisView);
+                                        SetsByWorkout s = new SetsByWorkout();
+                                        s.deleteSet(userID,Date,workoutCount,setCount);
                                     }
                                 });
                                 AlertDialog confirmDialog = adb.create();
@@ -341,14 +591,17 @@ public class workoutPage extends AppCompatActivity {
                             public void onClick(View v) {
 
                                 try {
-                                    Uri vidUri = uriHelper.get(toRecognizeView.get((View) v.getParent()));
-
-                                    String vUri = vidUri.toString();
-
-                                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("vidUri", vUri);
+                                    Uri videoUri = uriHelper.get(toRecognizeView.get((View) v.getParent()));
+//                                    String vidUri = videoUri.toString();
+//
+//                                    String Date = todaysDate.getText().toString();
+//                                    String setsCount = Integer.toString(setCount);
+//
+//                                    SetsByWorkout s = new SetsByWorkout();
+//                                    s.writeNewVidUri(userID, Date, workout, vidUri, setsCount);
 
                                     Intent resultVideoIntent = new Intent(workoutPage.this, watchVideo.class);
-                                    resultVideoIntent.putExtra(workoutPage.extraVideo, vidUri);
+                                    resultVideoIntent.putExtra(workoutPage.extraVideo, videoUri);
                                     startActivity(resultVideoIntent);
 
                                 } catch (Exception e) {
@@ -371,7 +624,8 @@ public class workoutPage extends AppCompatActivity {
 
                         String Date = todaysDate.getText().toString();
                         String workout = exercise.getText().toString();
-                        final String videoURI = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("vidUri", "No Uri Found.");
+
+
 
                         int re;
                         int w = 135;
@@ -384,21 +638,21 @@ public class workoutPage extends AppCompatActivity {
                         int legWeight = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("armWeight", 135);
 
 
-                        if (Arrays.asList(Shoulders).contains(workout)) {
+                        if (Arrays.asList(Shoulders).contains(currentExercise)) {
                             exerciseInt = 1;
-                        } else if (Arrays.asList(Arms).contains(workout)) {
+                        } else if (Arrays.asList(Arms).contains(currentExercise)) {
                             exerciseInt = 1;
-                        } else if (Arrays.asList(Back).contains(workout)) {
+                        } else if (Arrays.asList(Back).contains(currentExercise)) {
                             exerciseInt = 1;
-                        } else if (Arrays.asList(Chest).contains(workout)) {
+                        } else if (Arrays.asList(Chest).contains(currentExercise)) {
                             exerciseInt = 1;
-                        } else if(Arrays.asList(Legs).contains(workout)) {
+                        } else if(Arrays.asList(Legs).contains(currentExercise)) {
                             exerciseInt = 2;
-                        } else if(Arrays.asList(BodyWeight).contains(workout)) {
+                        } else if(Arrays.asList(BodyWeight).contains(currentExercise)) {
                             exerciseInt = 3;
-                        } else if(Arrays.asList(Abs).contains(workout)) {
+                        } else if(Arrays.asList(Abs).contains(currentExercise)) {
                             exerciseInt = 3;
-                        } else if(Arrays.asList(MinimalWeight).contains(workout)) {
+                        } else if(Arrays.asList(MinimalWeight).contains(currentExercise)) {
                             exerciseInt = 4;
                         } else {
                             exerciseInt = 0;
@@ -557,11 +811,13 @@ public class workoutPage extends AppCompatActivity {
 
                         String setsCount = Integer.toString(setCount);
 
+                        Uri videoUri = Uri.EMPTY;
+                        String vidUri = videoUri.toString();
 
                         SetsByWorkout s = new SetsByWorkout();
-                        s.writeNewSet(userID, Date, workout, videoURI, reps, weight, setsCount);
+                        s.writeNewSet(Date, userID, w, re, vidUri, workoutCount, setCount);
 
-//                        DatabaseReference reference = database.getReference("Workouts").child(userID).child("WorkoutsByDate").child(Date).child(workout).child(setsCount);
+//                        DatabaseReference reference = database.getReference("Workouts").child(userID).child(Date).child(workout).child(setsCount);
 //
 //                        reference.addValueEventListener(new ValueEventListener() {
 //                            @Override
@@ -608,13 +864,7 @@ public class workoutPage extends AppCompatActivity {
 
             case R.id.clearPage:
 
-                String a = userID;
-                String b = todaysDate.getText().toString();
-                String c = "";
 
-                WorkoutsByDate w = new WorkoutsByDate(a, b, c);
-
-                w.deleteDate(a, b, c);
 
                 AlertDialog.Builder adb = new AlertDialog.Builder(workoutPage.this);
                 // set title and message using string resources
@@ -628,12 +878,27 @@ public class workoutPage extends AppCompatActivity {
                 adb.setPositiveButton("Erase", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        holdsSetsAndReps.removeAllViews();
+                        int count = (holdsSetsAndReps).getChildCount() - 1;
+                        for(int i = count; i > 0; i--) {
+                            (holdsSetsAndReps).removeViewAt(i);
+                        }
+
+                        String a = userID;
+                        String b = todaysDate.getText().toString();
+
+                        DatesByUserID d = new DatesByUserID();
+
+                        d.deleteDate(a, b);
+
+
+
                     }
                 });
                 AlertDialog confirmDialog = adb.create();
 
                 confirmDialog.show();
+
+
 
                 return true;
 
@@ -668,39 +933,10 @@ public class workoutPage extends AppCompatActivity {
                         String workoutType = returnedString;
                         String Date = todaysDate.getText().toString();
 
-//                        DatabaseReference ref1 = database.getReference("Users").child(userID);
-//
-//
-//                        ref1.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                HashMap<String, Long> dataSnapshotValue = (HashMap) dataSnapshot.getValue();
-//
-//                                long reps1String = dataSnapshotValue.get("reps1");
-//                                int reps1 = (int)reps1String;
-//                                long reps2String = dataSnapshotValue.get("reps2");
-//                                int reps2 = (int)reps2String;
-//                                long reps3String = dataSnapshotValue.get("reps3");
-//                                int reps3 = (int)reps3String;
-//                                long armWeightString = dataSnapshotValue.get("armWeight");
-//                                int armWeight = (int)armWeightString;
-//                                long legWeightString = dataSnapshotValue.get("legWeight");
-//                                int legWeight = (int)legWeightString;
-//
-//
-
-//                            @Override
-//                            public void onCancelled(DatabaseError FirebaseError) {
-//
-//                            }
-//
-//                        });
-
-
+                        currentExercise = workoutType;
                         WorkoutsByDate w = new WorkoutsByDate();
-                        w.deleteDate(userID, Date, workoutType);
-                        w.writeNewDate(userID, Date, workoutType); // DEBUG NOTE: MUST REMOVE CURRENT SETS HERE EACH TIME SOMEONE CLICKS THE WORKOUT NAME, SETS FOR THAT WORKOUT WILL BE DELETED.
-
+                        w.deleteWorkout(userID, Date, workoutCount);
+                        w.writeNewWorkout(userID, Date, currentExercise, workoutCount, setCount); // DEBUG NOTE: MUST REMOVE CURRENT SETS HERE EACH TIME SOMEONE CLICKS THE WORKOUT NAME, SETS FOR THAT WORKOUT WILL BE DELETED.
 
                         setCount = 0;
 
