@@ -422,14 +422,15 @@ public class workoutPage extends AppCompatActivity {
                             public void onClick(View v) {
                                 tempView = v;
 
-                                Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
-                                try {
-                                    toRecognizeSets.put((View) v.getParent(), Integer.parseInt(weightForExercise.getText().toString()));
-                                } catch (NumberFormatException ex){
-                                    ex.printStackTrace();
+                                //Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
+                                try{
+                                    toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
+                                }catch (Exception e){
+
                                 }
-                                String weight = weightForExercise.getText().toString();
-                                Toast.makeText(getBaseContext(), "New Weight: " + weight, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
+                                final String reps = repsForExercise.getText().toString();
+                                //Toast.makeText(getBaseContext(), "New Reps: " + reps, Toast.LENGTH_SHORT).show();
 
 
 
@@ -447,7 +448,6 @@ public class workoutPage extends AppCompatActivity {
                                         SetsByWorkout s = new SetsByWorkout();
 
                                         mDatabase.child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(workoutCount)).child("sets").child(Integer.toString(setCount)).child("weight").setValue(weight);
-
                                     }
 
                                     @Override
@@ -475,7 +475,7 @@ public class workoutPage extends AppCompatActivity {
                                 //toRecognizeView.get(tempView.getParent());
                                 //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
 
-                                Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
 
 
                             }
@@ -486,13 +486,15 @@ public class workoutPage extends AppCompatActivity {
                             public void onClick(View v) {
                                 tempView = v;
 
-                                Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
-                                if(repsForExercise.getText().toString()!=null){
-                                toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
+                                //Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
+                                try{
+                                    toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
+                                }catch (Exception e){
+
                                 }
                                     //Toast.makeText(getBaseContext(), Integer.parseInt(weightForExercise.getText().toString()), Toast.LENGTH_SHORT).show();
                                 final String reps = repsForExercise.getText().toString();
-                                Toast.makeText(getBaseContext(), "New Reps: " + reps, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getBaseContext(), "New Reps: " + reps, Toast.LENGTH_SHORT).show();
 
                                 myRef1 = database.getReference().child("Workouts").child(userID).child(Date).child("workouts").child(Integer.toString(workoutCount));
 

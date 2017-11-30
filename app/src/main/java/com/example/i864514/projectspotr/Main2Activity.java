@@ -46,10 +46,6 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-
-
-        createWorkout = (Button)findViewById(R.id.createWorkoutButton);
-
         todaysWorkout = (Button)findViewById(R.id.todaysWorkoutButton);
         userProfile = (Button)findViewById(R.id.userProfileButton);
         runningMap = (Button)findViewById(R.id.runningMapButton);
