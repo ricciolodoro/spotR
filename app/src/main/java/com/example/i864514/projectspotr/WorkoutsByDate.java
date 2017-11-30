@@ -1,49 +1,67 @@
 package com.example.i864514.projectspotr;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 /**
- * Created by Michael on 10/17/2017.
+ * Created by Michael on 11/20/2017.
  */
 
 public class WorkoutsByDate {
 
     private DatabaseReference mDatabase;
 
-    public String userID;
-    public String Date;
-    public String workoutCount;
+    private String workout;
+    private int setcount;
 
-
-
-    public WorkoutsByDate() {
+    public WorkoutsByDate(){
 
     }
 
-    public WorkoutsByDate(String userID, String Date, String workoutCount) {
-        this.userID = userID;
-        this.Date = Date;
-        this.workoutCount = workoutCount;
+    public WorkoutsByDate(String workout, int setcount){
+
+        this.workout = workout;
+        this.setcount = setcount;
+
 
     }
 
-    public void writeNewDate(String userID, String Date, String workoutCount)
+    public String getWorkout() {
+        return workout;
+    }
+
+    public void setWorkout(String workout) {
+        this.workout = workout;
+    }
+
+    public int getSetcount() {
+        return setcount;
+    }
+
+    public void setSetcount(int setcount) {
+        this.setcount = setcount;
+    }
+
+    public void writeNewWorkout(String userID, String date, String workout, int setcount, int workoutcount)
     {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        WorkoutsByDate workout= new WorkoutsByDate(userID, Date, workoutCount);
+        WorkoutsByDate w = new WorkoutsByDate(workout, setcount);
 
-        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).child("Workout Info").setValue(workout);
+        mDatabase.child("Workouts").child(userID).child(date).child("workouts").child(Integer.toString(workoutcount)).setValue(w);
 
     }
 
-    public void deleteDate(String userID, String Date, String workoutCount)
+    public void deleteWorkout(String userID, String date, int wIndex)
     {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        WorkoutsByDate workout= new WorkoutsByDate(userID, Date, workoutCount);
-
-        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).setValue("");
+        mDatabase.child("Workouts").child(userID).child(date).child("workouts").child(Integer.toString(wIndex)).removeValue();
     }
+
 }

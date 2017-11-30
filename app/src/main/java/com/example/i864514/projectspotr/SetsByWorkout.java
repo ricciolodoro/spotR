@@ -1,74 +1,72 @@
 package com.example.i864514.projectspotr;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
 
 /**
- * Created by Michael on 11/20/2017.
+ * Created by Michael on 11/30/2017.
  */
 
 public class SetsByWorkout {
 
     private DatabaseReference mDatabase;
 
-    public String userID;
-    public String Date;
-    public String workoutCount;
-    public String vidURI;
-    public String reps;
-    public String weight;
-    public String setCount;
+    private int weight;
+    private int reps;
+    private String viduri;
 
-
-
-    public SetsByWorkout(){
+    public SetsByWorkout() {
 
     }
 
-    public SetsByWorkout(String userID, String Date, String workoutCount, String vidURI, String reps, String weight, String setCount){
-        this.userID = userID;
-        this.Date = Date;
-        this.workoutCount = workoutCount;
-        this.vidURI = vidURI;
-        this.reps = reps;
+    public SetsByWorkout(int weight, int reps, String viduri) {
+        this.viduri = viduri;
         this.weight = weight;
-        this.setCount = setCount;
-
+        this.reps = reps;
     }
 
-    public void writeNewSet(String userID, String Date, String workoutCount, String vidURI, String reps, String weight, String setCount)
-    {
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
+
+    public String getViduri() {
+        return viduri;
+    }
+
+    public void setViduri(String viduri) {
+        this.viduri = viduri;
+    }
+
+
+    public void writeNewSet(String date, String userID, int weight, int reps, String viduri, int wIndex, int sIndex) {
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        SetsByWorkout set = new SetsByWorkout(userID, Date, workoutCount, vidURI, reps, weight, setCount);
+        SetsByWorkout s = new SetsByWorkout(reps,weight,viduri);
 
-        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).child(workoutCount).child(setCount).setValue(set);
+        mDatabase.child("Workouts").child(userID).child(date).child("workouts").child(Integer.toString(wIndex)).child("sets").child(Integer.toString(sIndex)).setValue(s);
 
     }
 
-    public void writeNewVidUri(String userID, String Date, String workoutCount, String vidURI, String setCount) {
+    public void deleteSet(String date, String userID, int wIndex, int sIndex) {
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).child(workoutCount).child(setCount).child("vidURI").setValue(vidURI);
+        mDatabase.child("Workouts").child(userID).child(date).child("workouts").child(Integer.toString(wIndex)).child("sets").child(Integer.toString(sIndex)).removeValue();
+
+
     }
-
-    public void writeNewWeight(String userID, String Date, String workoutCount, String weight, String setCount) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).child(workoutCount).child(setCount).child("weight").setValue(weight);
-    }
-
-    public void writeNewReps(String userID, String Date, String workoutCount, String reps, String setCount) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mDatabase.child("Workouts").child(userID).child("WorkoutsByDate").child(Date).child(workoutCount).child(setCount).child("reps").setValue(reps);
-    }
-
-
 
 }

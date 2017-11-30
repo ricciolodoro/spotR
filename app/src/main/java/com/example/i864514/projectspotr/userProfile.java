@@ -3,6 +3,7 @@ package com.example.i864514.projectspotr;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,6 +59,8 @@ public class userProfile extends AppCompatActivity {
     EditText fastestMileInput;
     Button submitButton;
 
+    Resources res;
+
     private int getIndex(Spinner spinner, String myString)
     {
         int index = 0;
@@ -79,6 +83,8 @@ public class userProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        res = getResources();
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("spotR_Reminders");
@@ -128,6 +134,7 @@ public class userProfile extends AppCompatActivity {
 
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("liftingRegiment",liftingRegiment).apply();
 
+                String text = String.format(res.getString(R.string.suggestedworkout), liftingRegiment);
 
                 firstNameInput.setText(firstName);
                 lastNameInput.setText(lastName);
