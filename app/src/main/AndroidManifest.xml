@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".registerPage">
+        <activity android:name=".registerPage"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,8 @@
         <activity
             android:name=".Main2Activity"
             android:label="Home page"
-            android:theme="@style/AppTheme2">
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,7 +71,8 @@
         <activity
             android:name=".userProfile"
             android:label="Personal profile"
-            android:theme="@style/AppTheme3">
+            android:theme="@style/AppTheme3"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="USERPROFILE" />
 
@@ -88,7 +91,8 @@
         <activity
             android:name=".exercises"
             android:label="Exercises"
-            android:theme="@style/AppTheme3">
+            android:theme="@style/AppTheme3"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -98,14 +102,18 @@
         <activity
             android:name=".workoutPage"
             android:label="Workouts"
-            android:theme="@style/AppTheme3">
+            android:theme="@style/AppTheme3"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".watchVideo"></activity>
+        <activity android:name=".watchVideo"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

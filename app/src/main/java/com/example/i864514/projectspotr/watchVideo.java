@@ -1,6 +1,8 @@
 package com.example.i864514.projectspotr;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -48,13 +50,34 @@ public class watchVideo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (ContextCompat.checkSelfPermission(watchVideo.this, WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
 
-                        ActivityCompat.requestPermissions(watchVideo.this, new String[]{WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_CONTACTS);
+                AlertDialog.Builder adb = new AlertDialog.Builder(watchVideo.this);
+                // set title and message using string resources
+                // The  set methods look up the actual values of the resources
+                adb.setTitle("Are you sure?");
+                adb.setMessage("This will delete the video");
+                adb.setCancelable(true);
+                // negative button does nothing other than dismiss the dialog
+                adb.setNegativeButton("Cancel", null);
+                // positive button will carry out the deletion
+                adb.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                }else{
-                    getBaseContext().getContentResolver().delete(vidUri, null, null);
-                }
+                        if (ContextCompat.checkSelfPermission(watchVideo.this, WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+
+                            ActivityCompat.requestPermissions(watchVideo.this, new String[]{WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_CONTACTS);
+
+                        }else{
+                            getBaseContext().getContentResolver().delete(vidUri, null, null);
+                        }
+                    }
+                });
+                AlertDialog confirmDialog = adb.create();
+
+                confirmDialog.show();
+
+
 
             }
         });

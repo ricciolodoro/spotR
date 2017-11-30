@@ -362,10 +362,33 @@ public class workoutPage extends AppCompatActivity {
 
                 toRecognizeLayout.put(newView, forExercises);
 
+                final View[] v1 = {null};
+
                 deleteSets.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        (toRecognizeLayout.get(v.getParent().getParent())).removeAllViews();
+                        v1[0] = v;
+                        AlertDialog.Builder adb = new AlertDialog.Builder(workoutPage.this);
+                        // set title and message using string resources
+                        // The  set methods look up the actual values of the resources
+                        adb.setTitle("Are you sure?");
+                        adb.setMessage("This will delete the set");
+                        adb.setCancelable(true);
+                        // negative button does nothing other than dismiss the dialog
+                        adb.setNegativeButton("Cancel", null);
+                        // positive button will carry out the deletion
+                        adb.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                (toRecognizeLayout.get(v1[0].getParent().getParent())).removeAllViews();
+                            }
+                        });
+                        AlertDialog confirmDialog = adb.create();
+
+                        confirmDialog.show();
+
+
 
 
                     }
@@ -382,8 +405,7 @@ public class workoutPage extends AppCompatActivity {
 
                         toRecognizeLayout.get(v.getParent().getParent()).addView(newView2);
 
-
-
+                        
                         ImageButton recordVideo = (ImageButton) newView2.findViewById(R.id.recordVideo);
                         ImageButton viewVideo = (ImageButton) newView2.findViewById(R.id.viewVideo);
 
@@ -399,6 +421,7 @@ public class workoutPage extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 tempView = v;
+
                                 Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
                                 try {
                                     toRecognizeSets.put((View) v.getParent(), Integer.parseInt(weightForExercise.getText().toString()));
@@ -433,6 +456,7 @@ public class workoutPage extends AppCompatActivity {
                                     }
                                 });
                           }
+
                         });
 
                         weightForExercise.addTextChangedListener(new TextWatcher() {
@@ -450,7 +474,9 @@ public class workoutPage extends AppCompatActivity {
                             public void afterTextChanged(Editable s) {
                                 //toRecognizeView.get(tempView.getParent());
                                 //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
+
                                 Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+
 
                             }
                         });
@@ -459,6 +485,7 @@ public class workoutPage extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 tempView = v;
+
                                 Toast.makeText(getBaseContext(), "click", Toast.LENGTH_SHORT).show();
                                 if(repsForExercise.getText().toString()!=null){
                                 toRecognizeReps.put((View)v.getParent(),Integer.parseInt(repsForExercise.getText().toString()));
@@ -490,6 +517,7 @@ public class workoutPage extends AppCompatActivity {
                                 });
 
 
+
                             }
                         });
 
@@ -508,7 +536,7 @@ public class workoutPage extends AppCompatActivity {
                             public void afterTextChanged(Editable s) {
                                 //toRecognizeView.get(tempView.getParent());
                                 //weightToSave = Integer.parseInt(weightForExercise.getText().toString());
-                                Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getBaseContext(), "edit", Toast.LENGTH_SHORT).show();
                             }
                         });
 

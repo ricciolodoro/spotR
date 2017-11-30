@@ -16,6 +16,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -32,12 +33,12 @@ import java.util.Date;
 public class Main2Activity extends AppCompatActivity {
 
     Button calendarview;
-    Button createWorkout;
     Button todaysWorkout;
     Button userProfile;
     Button runningMap;
     Button musicPlaylists;
     Button myProgress;
+    MenuItem logout;
 
 
     @Override
@@ -46,13 +47,15 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
 
+
         createWorkout = (Button)findViewById(R.id.createWorkoutButton);
+
         todaysWorkout = (Button)findViewById(R.id.todaysWorkoutButton);
         userProfile = (Button)findViewById(R.id.userProfileButton);
         runningMap = (Button)findViewById(R.id.runningMapButton);
         musicPlaylists = (Button)findViewById(R.id.musicPlaylistsButton);
         myProgress = (Button)findViewById(R.id.myProgressButton);
-
+        logout = (MenuItem) findViewById(R.id.logOut);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Name, email address, and profile photo Url
@@ -81,13 +84,6 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-        createWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Main2Activity.this, workoutPage.class);
-                startActivity(i);
-            }
-        });
 
         todaysWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +140,18 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logOut:
+                FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                fAuth.signOut();
+                Intent i = new Intent(Main2Activity.this, registerPage.class);
+                startActivity(i);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 
@@ -152,11 +159,9 @@ public class Main2Activity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
 
-        Drawable previousScreenDrawable = menu.findItem(R.id.previousScreen).getIcon();
+        Drawable previousScreenDrawable = menu.findItem(R.id.logOut).getIcon();
         previousScreenDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
 
-        Drawable homeDrawable = menu.findItem(R.id.home).getIcon();
-        homeDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         return true;
     }
 }
