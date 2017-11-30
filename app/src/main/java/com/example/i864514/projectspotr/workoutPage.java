@@ -219,8 +219,7 @@ public class workoutPage extends AppCompatActivity {
 
                         toRecognizeLayout.get(v.getParent().getParent()).addView(newView2);
 
-
-
+                        
                         ImageButton recordVideo = (ImageButton) newView2.findViewById(R.id.recordVideo);
                         ImageButton viewVideo = (ImageButton) newView2.findViewById(R.id.viewVideo);
 
