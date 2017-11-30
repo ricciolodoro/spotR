@@ -177,10 +177,33 @@ public class workoutPage extends AppCompatActivity {
 
                 toRecognizeLayout.put(newView, forExercises);
 
+                final View[] v1 = {null};
+
                 deleteSets.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        (toRecognizeLayout.get(v.getParent().getParent())).removeAllViews();
+                        v1[0] = v;
+                        AlertDialog.Builder adb = new AlertDialog.Builder(workoutPage.this);
+                        // set title and message using string resources
+                        // The  set methods look up the actual values of the resources
+                        adb.setTitle("Are you sure?");
+                        adb.setMessage("This will delete the set");
+                        adb.setCancelable(true);
+                        // negative button does nothing other than dismiss the dialog
+                        adb.setNegativeButton("Cancel", null);
+                        // positive button will carry out the deletion
+                        adb.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                (toRecognizeLayout.get(v1[0].getParent().getParent())).removeAllViews();
+                            }
+                        });
+                        AlertDialog confirmDialog = adb.create();
+
+                        confirmDialog.show();
+
+
 
                     }
                 });

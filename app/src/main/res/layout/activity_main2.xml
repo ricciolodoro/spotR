@@ -4,77 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#616161"
     android:padding="3dp"
+    android:background="@drawable/gradient_background"
     tools:context="com.example.i864514.projectspotr.Main2Activity">
 
     <Button
-        android:id="@+id/createWorkoutButton"
-        android:layout_width="185sp"
-        android:layout_height="150sp"
+        android:id="@+id/myProgressButton"
+        android:layout_width="180sp"
+        android:layout_height="167sp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="@string/create"
-        android:background="@drawable/round_corners"/>
+        android:background="@drawable/circle_button"
+        android:text="@string/progress"
+        android:textStyle="bold"
+        android:typeface="serif" />
 
     <Button
         android:id="@+id/todaysWorkoutButton"
-        android:layout_width="185sp"
-        android:layout_height="150sp"
+        android:layout_width="180sp"
+        android:layout_height="167sp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/createWorkoutButton"
         android:text="@string/todays"
-        android:background="@drawable/round_corners"/>
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:background="@drawable/circle_button"
+        android:layout_toEndOf="@+id/myProgressButton" />
 
     <Button
         android:id="@+id/calendarButton"
-        android:layout_width="185sp"
-        android:layout_height="150sp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/createWorkoutButton"
-        android:layout_toStartOf="@+id/todaysWorkoutButton"
+        android:layout_width="180sp"
+        android:layout_height="167sp"
         android:text="@string/weight"
-        android:background="@drawable/round_corners"/>
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:background="@drawable/circle_button"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/userProfileButton"
-        android:layout_width="185sp"
-        android:layout_height="150sp"
+        android:layout_width="180sp"
+        android:layout_height="167sp"
         android:layout_alignParentEnd="true"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:layout_alignStart="@+id/todaysWorkoutButton"
         android:layout_below="@+id/todaysWorkoutButton"
         android:text="@string/workout"
-        android:background="@drawable/round_corners"/>
+        android:background="@drawable/circle_button"/>
 
     <Button
         android:id="@+id/musicPlaylistsButton"
-        android:layout_width="185sp"
-        android:layout_height="150sp"
+        android:layout_width="180sp"
+        android:layout_height="167sp"
         android:layout_alignParentEnd="true"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:layout_alignStart="@+id/userProfileButton"
         android:layout_below="@+id/userProfileButton"
         android:text="@string/music"
-        android:background="@drawable/round_corners"/>
+        android:background="@drawable/circle_button"/>
 
     <Button
         android:id="@+id/runningMapButton"
-        android:layout_width="185sp"
-        android:layout_height="150sp"
+        android:layout_width="180sp"
+        android:layout_height="167sp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/calendarButton"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:layout_toStartOf="@+id/userProfileButton"
         android:text="@string/runing"
-        android:background="@drawable/round_corners"/>
-
-    <Button
-        android:id="@+id/myProgressButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/musicPlaylistsButton"
-        android:layout_centerHorizontal="true"
-        android:text="@string/progress"
-        android:background="@drawable/round_corners"/>
+        android:background="@drawable/circle_button"/>
 
 </RelativeLayout>

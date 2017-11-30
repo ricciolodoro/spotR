@@ -3,13 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/previousScreen"
-        android:icon="@drawable/ic_keyboard_arrow_left_black_24dp"
-        android:title="Previous screen"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="Home"
+        android:id="@+id/logOut"
+        android:icon="@drawable/ic_logout"
+        android:title="logOut"
         app:showAsAction="always" />
 </menu>
